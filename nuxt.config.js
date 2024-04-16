@@ -15,7 +15,7 @@ export default {
       {rel: 'icon', type: 'image/x-icon', href: '/icon.ico'}
     ]
   },
-  mode: 'universal',
+  mode: 'spa',
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~/assets/style/index.css'],
 
@@ -70,7 +70,14 @@ export default {
       display: 'standalone',
       background_color: '#fff',
       theme_color: '#000',
-      // Add other manifest properties as needed
+      screenshots: [
+        {
+          src: '/screenshots/screenshot-1.png',
+          sizes: '320x640',
+          type: 'image/png',
+          platform: 'web'
+        }
+      ]
     },
     icon: {
       fileName: "v.png",
