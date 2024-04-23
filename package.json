@@ -7,6 +7,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "cap_init": "npx cap init",
     "cap_android": "npx cap add android",
     "cap_sync": "npx cap sync",
     "cap_open": "npx cap open android"

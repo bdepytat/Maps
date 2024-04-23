@@ -17,6 +17,9 @@ $ yarn start
 # генерація статичних сторінок
 $ yarn generate
 
+# Ініціалізація
+$ yarn cap_init
+
 # генерація андроїд програми
 $ cap_android
 $ cap_sync
