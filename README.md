@@ -17,14 +17,14 @@ $ yarn start
 # генерація статичних сторінок
 $ yarn generate
 
-# Ініціалізація
+# Ініціалізація андроїд
 $ yarn cap_init
 
 # генерація андроїд програми
-$ cap_android
-$ cap_sync
+$ yarn cap_android
+$ yarn cap_sync
 
 # відкритя андроїд програми
-$ cap_open
+$ yarn cap_open
 ```
 

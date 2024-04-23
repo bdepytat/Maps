@@ -1,14 +1,14 @@
 <!-- Please remove this file from your project -->
 <template>
   <div id="map-wrap" style="height: 100vh">
-    <client-only>
       <l-map :zoom=zoom :center="center">
-        <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
+        <l-tile-layer url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"></l-tile-layer>
         <l-marker v-for="(point, index) in points" :key="index" :lat-lng="point.latlng">
-          <l-popup>{{ point.text }}</l-popup>
+          <l-popup><ul class="list-inside">
+  <li>{{ point.text }}</li>
+</ul></l-popup>
         </l-marker>
       </l-map>
-    </client-only>
   </div>
 </template>
 
