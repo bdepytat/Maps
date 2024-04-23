@@ -1,7 +1,6 @@
 {
   "name": "Map",
   "short_name": "Map",
-  "description": "## Build Setup",
   "icons": [
     {
       "src": "/_nuxt/icons/icon_64x64.220676.png",
@@ -54,7 +53,13 @@
   "screenshots": [
     {
       "src": "/screenshots/screenshot-1.png",
-      "sizes": "320x640",
+      "sizes": "540x720",
+      "type": "image/png",
+      "platform": "web"
+    },
+    {
+      "src": "/screenshots/screenshot-2.png",
+      "sizes": "720x540",
       "type": "image/png",
       "platform": "web"
     }

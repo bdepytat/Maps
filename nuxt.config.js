@@ -6,16 +6,30 @@ export default {
       lang: 'en'
     },
     meta: [
-      {charset: 'utf-8'},
-      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: ''},
-      {name: 'format-detection', content: 'telephone=no'}
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
+      { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/icon.ico'}
+      { rel: 'icon', type: 'image/x-icon', href: '/icon.ico' }
+    ],
+    script:[
+      {
+        type: 'module',
+        src: 'https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.esm.js'
+      }
     ]
   },
+  ssr: false,
+  target: 'static',
   mode: 'spa',
+  // generate: {
+  //   dir: 'docs'
+  // },
+  static: {
+    prefix: true
+  },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~/assets/style/index.css'],
 
@@ -73,7 +87,13 @@ export default {
       screenshots: [
         {
           src: '/screenshots/screenshot-1.png',
-          sizes: '320x640',
+          sizes: "540x720",
+          type: 'image/png',
+          platform: 'web'
+        },
+        {
+          src: '/screenshots/screenshot-2.png',
+          sizes: "720x540",
           type: 'image/png',
           platform: 'web'
         }

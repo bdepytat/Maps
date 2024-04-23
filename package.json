@@ -6,9 +6,15 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "cap_android": "npx cap add android",
+    "cap_sync": "npx cap sync",
+    "cap_open": "npx cap open android"
   },
   "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.25.3",
     "leaflet": "^1.9.4",
