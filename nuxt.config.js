@@ -12,27 +12,42 @@ export default {
       {name: 'format-detection', content: 'telephone=no'}
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/icon.ico'}
+      {rel: 'icon', type: 'image/x-icon', href: '/icon.ico'},
+      //  {
+      //    rel: 'stylesheet',
+      //    type: 'text/css',
+      //    href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'
+      //  }
     ],
-    script: []
+    script: [
+      // {
+      //   body: true,
+      //   src: "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      // }
+    ]
   },
   ssr: false,
   target: 'static',
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['~/assets/style/index.css'],
+  css: [
+    '~/assets/style/index.css',
+    '~/node_modules/bootstrap-icons/font/bootstrap-icons.css',
+    '~/node_modules/bootstrap/dist/css/bootstrap.min.css'
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    {src: '~plugins/leaflet.js'}
+    {src: '~plugins/leaflet.js'},
+    {src: '~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js', mode: 'client'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   //components: false,
   //devtools: {enabled: true},
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  tailwindcss: {
-    configPath: '~/tailwind.config.js'
-  },
+  // tailwindcss: {
+  //   configPath: '~/tailwind.config.js'
+  // },
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -47,7 +62,7 @@ export default {
     }
   },
   // Modules: https://go.nuxtjs.dev/config-modules
-  buildModules: ['@nuxtjs/tailwindcss'],
+  // buildModules: ['@nuxtjs/tailwindcss'],
   modules: [
     'nuxt-leaflet',
     '@nuxtjs/pwa'

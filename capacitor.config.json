@@ -1,5 +1,13 @@
 {
   "appId": "com.poltava_map.myapp",
   "appName": "poltawa_map",
-  "webDir": "dist"
+  "webDir": "dist",
+  "android": {
+    "splash": {
+      "backgroundColor": "#ffffff",
+      "image": "res/drawable/splash.png",
+      "resizeMode": "contain",
+      "showSpinner": false
+    }
+  }
 }
