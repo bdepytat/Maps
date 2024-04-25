@@ -1,15 +1,13 @@
 <template>
-  <NuxtTutorial/>
+   <NuxtTutorial/>
 </template>
 
 <script>
-import { nextTick } from "vue";
-
 import NuxtTutorial from "../components/Tutorial.vue";
 
 export default {
   name: "IndexPage",
-  components: {NuxtTutorial},
+  components: { NuxtTutorial },
 };
 </script>
 <style>
