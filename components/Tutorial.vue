@@ -9,7 +9,6 @@
     </div>
     <div v-if="hidden">
       <map-out/>
-
     </div>
   </div>
 </template>

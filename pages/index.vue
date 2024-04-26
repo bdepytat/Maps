@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import { nextTick } from "vue";
 
 import NuxtTutorial from "../components/Tutorial.vue";
 
