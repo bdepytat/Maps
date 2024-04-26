@@ -82,7 +82,7 @@ export default {
     return {
       zoom: 7,
       center: [49.674189, 33.792977],
-      url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
       attribution: '',
       popupContent: '',
       popupPosition: '',
