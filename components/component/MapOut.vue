@@ -73,12 +73,14 @@
       </div>
       <div class="row">
         <div class="dropup-center dropup fixed-bottom mb-4 ms-1 p-0">
+          <site-bar :points="points_all"/>
           <button
             @click="hdAll"
             class="btn btn-primary dropdown-toggle"
             type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasExample"
+            aria-controls="offcanvasExample"
           >
             <i class="bi bi-grid"></i>
           </button>
@@ -100,9 +102,11 @@
 
 <script>
 import geoPoint from "~/api/point.js";
+import SiteBar from "./SiteBar.vue";
 
 export default {
   name: "NuxtTutorial",
+  components: {SiteBar},
   data() {
     return {
       zoom: 7,
@@ -123,7 +127,6 @@ export default {
       ".leaflet-control-attribution.leaflet-control"
     );
     foot_text.style.display = "none";
-    this.rn_all = Array.from(new Set(this.points_all.map((item) => item.text)));
   },
   computed: {
     points: {

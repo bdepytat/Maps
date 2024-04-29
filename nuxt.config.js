@@ -30,7 +30,7 @@ export default {
   target: 'static',
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/assets/style/index.css',
+    '~/assets/style/index.scss',
     '~/node_modules/bootstrap-icons/font/bootstrap-icons.css',
     '~/node_modules/bootstrap/dist/css/bootstrap.min.css'
   ],
