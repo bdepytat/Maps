@@ -15,99 +15,85 @@
       </l-marker>
       <l-geo-json :geojson="maps_pl"></l-geo-json>
     </l-map>
-    <div class="row">
-      <div class="fixed-top top_left col-12 col-md-4">
-        <div
-          class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 shadow overflow-hidden"
-          data-bs-theme="light"
-        >
-          <form class="p-2 mb-2 bg-body-tertiary border-bottom">
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                v-model="text_all"
-                @input="handleSearch($event)"
-                @click="handleSearch($event)"
-                placeholder="пошук"
-              />
-              <button
-                v-show="text_all.length > 0"
-                @click="text_all = ''"
-                class="btn btn-outline-secondary"
-                type="button"
-                id="button-addon2"
-              >
-                x
-              </button>
-            </div>
-          </form>
-          <ul
-            ref="listResult"
-            class="list-unstyled mb-0 overflow-y-auto overflow-x-hidden list-group list-group-flush border-bottom scrollarea"
-            style="max-height: 250px"
+    <div class="container">
+      <div class="row">
+        <div class="fixed-top top_left col-10 col-md-4">
+          <div
+            class="dropdown-menu mt-2 d-block position-static pt-0 mx-0 rounded-3 shadow overflow-hidden pb-0"
+            data-bs-theme="light"
           >
-            <template v-for="result in searchResults">
-              <li
-                @click="hiddenBlock(result.text3)"
-                class="list-group-item list-group-item-action lh-sm"
-                style="cursor: pointer"
-              >
-                <div class="dropdown-item d-flex align-items-center justify-content-center">
-                  <div class="d-flex align-items-start flex-column">
-                    <span class="fw-bold">{{ result.text3 }}</span>
-                    <small class="text-body-secondary">{{ result.text }}</small>
-                    <small class="text-body-secondary">{{ result.text1 }}</small>
-                    <small class="text-body-secondary">{{ result.text2 }}</small>
-                    <small class="text-body-secondary">{{ result.text4 }}</small>
-                  </div>
+            <form class="p-2 mb-0 bg-body-tertiary border-bottom">
+              <div class="form-control p-0" id="floatingInput">
+                <div class="form-floating position-relative">
+                <textarea class="form-control overflow-hidden" id="floatingInput"
+                          cols="1"
+                          type="text"
+                          v-model="text_all"
+                          @input="handleSearch($event)"
+                          @click="handleSearch($event)"
+                          placeholder="пошук"></textarea>
+                  <label for="floatingInput">Пошук</label>
+                  <button
+                    v-show="text_all.length > 0"
+                    @click="resetSearch"
+                    class="btn btn-outline-secondary position-absolute top-0 border-0 end-0"
+                    type="button"
+                    id="button-addon2"
+                  >
+                    x
+                  </button>
                 </div>
+              </div>
+            </form>
+            <ul
+              ref="listResult"
+              class="list-unstyled mb-0 overflow-y-auto overflow-x-hidden list-group list-group-flush border-bottom scrollarea"
+              style="max-height: 250px"
+            >
+              <template v-for="result in searchResults">
+                <li
+                  @click="hiddenBlock(result.text3)"
+                  class="list-group-item list-group-item-action lh-sm"
+                  style="cursor: pointer"
+                >
+                  <div class="dropdown-item d-flex align-items-center justify-content-start">
+                    <div class="d-flex align-items-start flex-column offset-1">
+                      <span class="fw-bold text-wrap">{{ result.text3 }}</span>
+                      <small class="text-body-secondary text-wrap">{{ result.text }}</small>
+                      <small class="text-body-secondary text-wrap">{{ result.text1 }}</small>
+                      <small class="text-body-secondary text-wrap">{{ result.text2 }}</small>
+                      <small class="text-body-secondary text-wrap">{{ result.text4 }}</small>
+                    </div>
+                  </div>
+                </li>
+              </template>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="dropup-center dropup fixed-bottom mb-4 ms-1 p-0">
+          <button
+            @click="hdAll"
+            class="btn btn-primary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bi bi-grid"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <template v-for="(result, index) in rn_all">
+              <li @click="handleRn(result)">
+                <p class="dropdown-item">{{ result }}</p>
+              </li>
+              <li v-if="index < rn_all.length - 1">
+                <hr class="dropdown-divider"/>
               </li>
             </template>
           </ul>
         </div>
       </div>
-    </div>
-    <div
-      ref="toastShow"
-      class="toast align-items-center position-fixed bottom-0 end-0 w-auto"
-      style="z-index: 999"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
-    >
-      <div class="d-flex">
-        <div class="toast-body">
-          <ul class="list-inside">
-            <li>{{ points[0].text }}</li>
-            <li>{{ points[0].text1 }}</li>
-            <li>{{ points[0].text2 }}</li>
-            <li>{{ points[0].text3 }}</li>
-            <li>{{ points[0].text4 }}</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="dropup-center dropup fixed-bottom">
-      <button
-        @click="hdAll"
-        class="btn btn-primary dropdown-toggle"
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        <i class="bi bi-grid"></i>
-      </button>
-      <ul class="dropdown-menu">
-        <template v-for="(result, index) in rn_all">
-          <li @click="handleRn(result)">
-            <p class="dropdown-item">{{ result }}</p>
-          </li>
-          <li v-if="index < rn_all.length - 1">
-            <hr class="dropdown-divider" />
-          </li>
-        </template>
-      </ul>
     </div>
   </div>
 </template>
@@ -136,9 +122,7 @@ export default {
     let foot_text = document.querySelector(
       ".leaflet-control-attribution.leaflet-control"
     );
-    let leaflet_left = document.querySelector(".leaflet-top.leaflet-left");
     foot_text.style.display = "none";
-    leaflet_left.style.display = "none";
     this.rn_all = Array.from(new Set(this.points_all.map((item) => item.text)));
   },
   computed: {
@@ -149,7 +133,7 @@ export default {
       },
       set(points) {
         this.searchResults = points;
-        return { ...points };
+        return {...points};
       },
     },
     maps_pl() {
@@ -157,10 +141,13 @@ export default {
     },
   },
   methods: {
+    resetSearch() {
+      this.text_all = '';
+      this.points = this.points_all;
+    },
     handleSearch(event) {
       this.searchInput = event.target.value;
       this.$refs.listResult.style.display = "block";
-      this.$refs.toastShow.style.display = "none";
       this.points = this.points_all.filter((item) => {
         const searchProperties = ["text", "text2", "text3", "text4"];
         return searchProperties.some((property) =>
@@ -172,7 +159,6 @@ export default {
       this.searchInput = value;
       this.text_all = value;
       this.$refs.listResult.style.display = "none";
-      this.$refs.toastShow.style.display = "none";
       this.points = this.points_all.filter((item) => {
         const searchProperties = ["text", "text2", "text3", "text4"];
         return searchProperties.some((property) =>
@@ -182,7 +168,6 @@ export default {
     },
     hdAll() {
       this.$refs.listResult.style.display = "none";
-      this.$refs.toastShow.style.display = "none";
     },
     hiddenBlock(input) {
       if (input.length > 0)
@@ -193,10 +178,6 @@ export default {
           );
         });
       this.$refs.listResult.style.display = "none";
-      this.$refs.toastShow.style.display = "block";
-      setTimeout(() => {
-        this.$refs.toastShow.style.display = "none";
-      }, 4000);
     },
   },
 };
@@ -205,6 +186,10 @@ export default {
 <style scoped>
 .leaflet-popup-content .list-inside {
   padding-left: 15px;
+}
+
+.top_left {
+  left: auto;
 }
 
 .dropup .dropdown-toggle::after {
