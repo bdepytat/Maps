@@ -163,7 +163,7 @@ export default {
       this.text_all = value;
       this.$refs.listResult.style.display = "none";
       this.points = this.points_all.filter((item) => {
-        const searchProperties = ["text", "text2", "text3", "text4"];
+        const searchProperties = ["text", "text1", "text3", "text4"];
         return searchProperties.some((property) =>
           item[property].toLowerCase().includes(this.searchInput.toLowerCase())
         );

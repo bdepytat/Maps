@@ -10,19 +10,13 @@ export default {
     }
   },
   mounted() {
-    //this.rn_all = Array.from(new Set(this.points.map((item) => item.text)));
     this.districts = Array.from(new Set(Object.values(this.points).map((item) => {
       const parts = item.text.split(":");
       const name = parts[1];
       return name;
     })));
     this.the_hulks = Array.from(new Set(Object.values(this.points).map((item) => {
-      const parts = item.text2.split(":");
-      const name = parts[1];
-      return name;
-    })));
-    this.types = Array.from(new Set(Object.values(this.points).map((item) => {
-      const parts = item.text4.split(":");
+      const parts = item.text1.split(":");
       const name = parts[1];
       return name;
     })));
@@ -36,7 +30,7 @@ export default {
       <figure
         class="d-flex flex-column align-items-start link-body-emphasis text-decoration-none mb-0">
         <blockquote class="blockquote m-0">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Полтавщина</h5>
+          <h5 class="offcanvas-title" id="offcanvasExampleLabel" style="color: #008fd1"><strong>Полтавщина</strong></h5>
         </blockquote>
         <figcaption class="text-body-secondary">
           джерела питної води
@@ -74,22 +68,6 @@ export default {
                   <li @click="$parent.handleRn(the_hulk)" data-bs-dismiss="offcanvas" aria-label="Close"><a
                     class="link-body-emphasis d-inline-flex text-decoration-none rounded"
                     style="cursor: pointer">{{ the_hulk }}</a>
-                  </li>
-                </template>
-              </ul>
-            </div>
-          </li>
-          <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
-                    data-bs-toggle="collapse" data-bs-target="#type-collapse" aria-expanded="false">
-              Тип
-            </button>
-            <div class="collapse" id="type-collapse">
-              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <template v-for="(type, index) in types">
-                  <li @click="$parent.handleRn(type)" data-bs-dismiss="offcanvas" aria-label="Close"><a
-                    class="link-body-emphasis d-inline-flex text-decoration-none rounded"
-                    style="cursor: pointer">{{ type }}</a>
                   </li>
                 </template>
               </ul>
