@@ -56,15 +56,7 @@
                   class="list-group-item list-group-item-action lh-sm"
                   style="cursor: pointer"
                 >
-                  <div class="dropdown-item d-flex align-items-center justify-content-start">
-                    <div class="d-flex align-items-start flex-column offset-1">
-                      <span class="fw-bold text-wrap">{{ result.text3 }}</span>
-                      <small class="text-body-secondary text-wrap">{{ result.text }}</small>
-                      <small class="text-body-secondary text-wrap">{{ result.text1 }}</small>
-                      <small class="text-body-secondary text-wrap">{{ result.text2 }}</small>
-                      <small class="text-body-secondary text-wrap">{{ result.text4 }}</small>
-                    </div>
-                  </div>
+                  <list-resalt :result="result"/>
                 </li>
               </template>
             </ul>
@@ -103,10 +95,11 @@
 <script>
 import geoPoint from "~/api/point.js";
 import SiteBar from "./SiteBar.vue";
+import ListResalt from "./ListResalt.vue";
 
 export default {
   name: "NuxtTutorial",
-  components: {SiteBar},
+  components: {ListResalt, SiteBar},
   data() {
     return {
       zoom: 7,

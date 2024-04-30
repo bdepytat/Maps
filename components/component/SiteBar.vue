@@ -1,12 +1,16 @@
 <script>
+import ListResalt from "./ListResalt.vue";
+
 export default {
   name: "SideBar",
+  components: {ListResalt},
   props: ['points'],
   data() {
     return {
       districts: [],
       the_hulks: [],
       types: [],
+      showList: '',
     }
   },
   mounted() {
@@ -20,6 +24,31 @@ export default {
       const name = parts[1];
       return name;
     })));
+  },
+  methods: {
+    GetPoint(hulk) {
+      const result = this.points.reduce((acc, item) => {
+        const key = item.text1;
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(item);
+        return acc;
+      }, {});
+      const key = `громада:${hulk}`;
+      return result[key];
+    },
+    toggleList(index) {
+      this.showList = index;
+    },
+    openMap(value) {
+      this.showList = false;
+      this.$parent.handleRn(value)
+    },
+    openMapLast(value) {
+      this.showList = false;
+      this.$parent.hiddenBlock(value)
+    }
   }
 }
 </script>
@@ -49,7 +78,7 @@ export default {
             <div class="collapse" id="district-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                 <template v-for="(district, index) in districts">
-                  <li @click="$parent.handleRn(district)" data-bs-dismiss="offcanvas" aria-label="Close"><a
+                  <li @click="openMap(district)" data-bs-dismiss="offcanvas" aria-label="Close"><a
                     class="link-body-emphasis d-inline-flex text-decoration-none rounded"
                     style="cursor: pointer">{{ district }}</a>
                   </li>
@@ -65,9 +94,38 @@ export default {
             <div class="collapse" id="the_hulk-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                 <template v-for="(the_hulk, index) in the_hulks">
-                  <li @click="$parent.handleRn(the_hulk)" data-bs-dismiss="offcanvas" aria-label="Close"><a
-                    class="link-body-emphasis d-inline-flex text-decoration-none rounded"
-                    style="cursor: pointer">{{ the_hulk }}</a>
+                  <li>
+                    <div class="d-flex flex-row flex-nowrap justify-content-between">
+                      <div class="col-auto">
+                        <a @click="openMap(the_hulk)"
+                           class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                           style="cursor: pointer" data-bs-dismiss="offcanvas" aria-label="Close">{{ the_hulk }}</a>
+                      </div>
+                      <div class="col-auto" v-show="showList !== the_hulk">
+                        <button type="button" class="btn" @click="toggleList(the_hulk)">
+                          <i class="bi bi-plus-lg"></i>
+                        </button>
+                      </div>
+                      <div class="col-auto" v-show="showList == the_hulk">
+                        <button type="button" class="btn p-1" @click="toggleList(false)">
+                          <i class="bi">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"
+                                 fill="none">
+                              <path d="M6 12L18 12" stroke="#949797" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+                          </i>
+                        </button>
+                      </div>
+                    </div>
+                    <ul class="list-group list-group-flush offset-2" v-show="showList == the_hulk">
+                      <template v-for="(value, index) in GetPoint(the_hulk)">
+                        <li class="list-group-item" @click="openMapLast(value.text3)"
+                            data-bs-dismiss="offcanvas" aria-label="Close" style="cursor: pointer">
+                          <list-resalt :result="value"/>
+                        </li>
+                      </template>
+                    </ul>
                   </li>
                 </template>
               </ul>
