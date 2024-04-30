@@ -54,7 +54,8 @@ export default {
 </script>
 
 <template>
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas offcanvas-start fs-5" tabindex="-1" id="offcanvasExample"
+       aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header border-bottom">
       <figure
         class="d-flex flex-column align-items-start link-body-emphasis text-decoration-none mb-0">
@@ -67,11 +68,11 @@ export default {
       </figure>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body fs-5">
       <div class="flex-shrink-0 p-3" style="width: 280px;">
         <ul class="list-unstyled ps-0">
           <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fs-5"
                     data-bs-toggle="collapse" data-bs-target="#district-collapse" aria-expanded="false">
               Район
             </button>
@@ -87,7 +88,7 @@ export default {
             </div>
           </li>
           <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fs-5"
                     data-bs-toggle="collapse" data-bs-target="#the_hulk-collapse" aria-expanded="false">
               Громада
             </button>
