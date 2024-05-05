@@ -15,27 +15,26 @@ export default {
   },
   mounted() {
     this.districts = Array.from(new Set(Object.values(this.points).map((item) => {
-      const parts = item.text.split(":");
+      const parts = item.district.split(":");
       const name = parts[1];
       return name;
     })));
+
     this.the_hulks = Array.from(new Set(Object.values(this.points).map((item) => {
-      const parts = item.text1.split(":");
-      const name = parts[1];
-      return name;
+      return item.text;
     })));
   },
   methods: {
     GetPoint(hulk) {
       const result = this.points.reduce((acc, item) => {
-        const key = item.text1;
+        const key = item.text;
         if (!acc[key]) {
           acc[key] = [];
         }
         acc[key].push(item);
         return acc;
       }, {});
-      const key = `громада:${hulk}`;
+      const key = `${hulk}`;
       return result[key];
     },
     toggleList(index) {
@@ -48,6 +47,9 @@ export default {
     openMapLast(value) {
       this.showList = false;
       this.$parent.hiddenBlock(value)
+    },
+    pushInfo(value) {
+      this.$parent.info = value;
     }
   }
 }
@@ -69,7 +71,7 @@ export default {
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body fs-5">
-      <div class="flex-shrink-0 p-3" style="width: 280px;">
+      <div class="flex-shrink-0 w-auto">
         <ul class="list-unstyled ps-0">
           <li class="mb-1">
             <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed fs-5"
@@ -119,11 +121,16 @@ export default {
                         </button>
                       </div>
                     </div>
-                    <ul class="list-group list-group-flush offset-2" v-show="showList == the_hulk">
+                    <ul class="list-group list-group-flush offset-1" v-show="showList == the_hulk">
                       <template v-for="(value, index) in GetPoint(the_hulk)">
-                        <li class="list-group-item" @click="openMapLast(value.text3)"
-                            data-bs-dismiss="offcanvas" aria-label="Close" style="cursor: pointer">
-                          <list-resalt :result="value"/>
+                        <li class="list-group-item position-relative">
+                          <list-resalt :result="value" @click="openMapLast(value.text1)" data-bs-dismiss="offcanvas"
+                                       aria-label="Close" style="cursor: pointer"/>
+                          <a class="d-inline float-end fs-6 position-absolute bottom-0 end-0"
+                             @click="pushInfo(value)"
+                             style="cursor: pointer"
+                             data-bs-toggle="modal" data-bs-target="#moreDetails">Детальніше<i
+                            class="bi bi-link-45deg ms-1"></i></a>
                         </li>
                       </template>
                     </ul>

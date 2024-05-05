@@ -2,7 +2,7 @@
 <template>
   <div class="">
     <div v-show="img_hidden" class="screen row flex-column justify-content-center align-items-center">
-      <div class="col-auto"><span class="loader-112">П &nbsp; лтавщина</span></div>
+     <!-- <div class="col-auto"><span class="loader-112">П &nbsp; лтавщина</span></div> -->
       <div class="col-auto">
         <img class="object-fit-cover" alt="" src="/screenshots/screenshot-2.png"/>
       </div>

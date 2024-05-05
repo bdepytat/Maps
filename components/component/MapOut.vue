@@ -4,13 +4,7 @@
       <l-tile-layer :url="url"></l-tile-layer>
       <l-marker v-for="(point, index) in points" :key="index" :lat-lng="point.latlng">
         <l-popup>
-          <ul class="list-inside">
-            <li>{{ point.text }}</li>
-            <li>{{ point.text1 }}</li>
-            <li>{{ point.text2 }}</li>
-            <li>{{ point.text3 }}</li>
-            <li>{{ point.text4 }}</li>
-          </ul>
+          <ListPopup :point="point"/>
         </l-popup>
       </l-marker>
       <l-geo-json :geojson="maps_pl"></l-geo-json>
@@ -47,9 +41,7 @@
             </form>
             <ul
               ref="listResult"
-              class="list-unstyled mb-0 overflow-y-auto overflow-x-hidden list-group list-group-flush border-bottom scrollarea"
-              style="max-height: 250px"
-            >
+              class="list-unstyled mb-0 overflow-y-auto overflow-x-hidden list-group list-group-flush border-bottom scrollarea">
               <template v-for="result in searchResults">
                 <li
                   @click="hiddenBlock(result.text3)"
@@ -89,6 +81,7 @@
         </div>
       </div>
     </div>
+    <info-link :info="get_info"/>
   </div>
 </template>
 
@@ -96,10 +89,12 @@
 import geoPoint from "~/api/point.js";
 import SiteBar from "./SiteBar.vue";
 import ListResalt from "./ListResalt.vue";
+import ListPopup from "./ListPopup.vue";
+import InfoLink from "../modal/InfoLink.vue";
 
 export default {
   name: "NuxtTutorial",
-  components: {ListResalt, SiteBar},
+  components: {InfoLink, ListResalt, SiteBar, ListPopup},
   data() {
     return {
       zoom: 7,
@@ -113,6 +108,7 @@ export default {
       points_all: geoPoint.points,
       rn_all: [],
       text_all: "",
+      info: []
     };
   },
   mounted() {
@@ -122,6 +118,9 @@ export default {
     foot_text.style.display = "none";
   },
   computed: {
+    get_info() {
+      return this.info;
+    },
     points: {
       get() {
         if (this.searchResults.length > 0) return this.searchResults;
@@ -145,7 +144,7 @@ export default {
       this.searchInput = event.target.value;
       this.$refs.listResult.style.display = "block";
       this.points = this.points_all.filter((item) => {
-        const searchProperties = ["text", "text2", "text3", "text4"];
+        const searchProperties = ["text", "text1", "text2", "text3", "text4"];
         return searchProperties.some((property) =>
           item[property].toLowerCase().includes(this.searchInput.toLowerCase())
         );
@@ -168,7 +167,7 @@ export default {
     hiddenBlock(input) {
       if (input.length > 0)
         this.points = this.points_all.filter((item) => {
-          const searchProperties = ["text", "text2", "text3", "text4"];
+          const searchProperties = ["text", "text1", "text2", "text3", "text4"];
           return searchProperties.some((property) =>
             item[property].toLowerCase().includes(input.toLowerCase())
           );

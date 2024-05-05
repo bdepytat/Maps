@@ -1,22 +1,26 @@
 <script>
 export default {
   name: "ListResalt",
-  props: ['result']
+  props: ['result'],
+  data() {
+    return {
+      down: true,
+    }
+  },
+  methods: {}
 }
 </script>
 
 <template>
   <div class="dropdown-item d-flex align-items-center justify-content-start">
-    <div class="d-flex align-items-start flex-column offset-1">
-      <span class="fw-bold text-wrap">{{ result.text3 }}</span>
-      <span class="text-body-secondary text-wrap">{{ result.text }}</span>
-      <span class="text-body-secondary text-wrap">{{ result.text1 }}</span>
-      <span class="text-body-secondary text-wrap">{{ result.text2 }}</span>
-      <span class="text-body-secondary text-wrap">{{ result.text4 }}</span>
+    <div class="d-flex align-items-start flex-column fs-7 text-body-secondary">
+      <strong class="text-wrap">{{ result.text1 }}</strong>
     </div>
   </div>
 </template>
 
 <style scoped>
-
+.fs-7 {
+  font-size: .9rem;
+}
 </style>
