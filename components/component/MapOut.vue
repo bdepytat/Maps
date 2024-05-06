@@ -1,6 +1,8 @@
 <template>
   <div id="map-wrap" style="height: 100vh">
-    <l-map :zoom="zoom" :center="center" @click="hiddenBlock">
+    <l-map :zoom="zoom"
+           :center="center"
+           @click="hiddenBlock">
       <l-tile-layer :url="url"></l-tile-layer>
       <l-marker v-for="(point, index) in points" :key="index" :lat-lng="point.latlng">
         <l-popup>
@@ -91,6 +93,7 @@ import SiteBar from "./SiteBar.vue";
 import ListResalt from "./ListResalt.vue";
 import ListPopup from "./ListPopup.vue";
 import InfoLink from "../modal/InfoLink.vue";
+import {nextTick} from "vue";
 
 export default {
   name: "NuxtTutorial",
@@ -116,6 +119,11 @@ export default {
       ".leaflet-control-attribution.leaflet-control"
     );
     foot_text.style.display = "none";
+    nextTick(() => {
+      const path = document.querySelector('#map-wrap .leaflet-interactive')
+      path.style.fill = 'green';
+      path.style.stroke = 'green';
+    })
   },
   computed: {
     get_info() {
