@@ -7,7 +7,7 @@
 import NuxtTutorial from "../components/Tutorial.vue";
 
 export default {
-  name: "IndexPage",
+  name: "MapPage",
   components: {NuxtTutorial},
 };
 </script>

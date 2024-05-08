@@ -58,17 +58,20 @@ export default {
 <template>
   <div class="offcanvas offcanvas-start fs-5" tabindex="-1" id="offcanvasExample"
        aria-labelledby="offcanvasExampleLabel">
+
+    <div class="offcanvas-header border-bottom">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
     <div class="offcanvas-header border-bottom">
       <figure
         class="d-flex flex-column align-items-start link-body-emphasis text-decoration-none mb-0">
-        <blockquote class="blockquote m-0">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel" style="color: #008fd1"><strong>Полтавщина</strong></h5>
+        <blockquote class="blockquote">
+         <img src="/images/Polt_OVA.png" class="img-fluid w-50"/>
         </blockquote>
-        <figcaption class="text-body-secondary">
-          джерела питної води
+        
+        <figcaption class="text-body-secondary fs-6">
+          ЦЕНТРИ НАДАННЯ АДМІНІСТРАТИВНИХ ПОСЛУГ
         </figcaption>
-      </figure>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </figure>      
     </div>
     <div class="offcanvas-body fs-5">
       <div class="flex-shrink-0 w-auto">
@@ -126,7 +129,7 @@ export default {
                         <li class="list-group-item position-relative">
                           <list-resalt :result="value" @click="openMapLast(value.text1)" data-bs-dismiss="offcanvas"
                                        aria-label="Close" style="cursor: pointer"/>
-                          <a class="d-inline float-end fs-6 position-absolute bottom-0 end-0"
+                          <a class="d-inline float-end fs-6"
                              @click="pushInfo(value)"
                              style="cursor: pointer"
                              data-bs-toggle="modal" data-bs-target="#moreDetails">Детальніше<i

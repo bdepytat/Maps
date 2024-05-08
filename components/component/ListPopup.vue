@@ -11,7 +11,7 @@ export default {
 </script>
 <template>
   <ul class="list-unstyled ">
-    <li><strong>{{ point.text }}</strong></li>
+    <li><strong><i class="bi bi-map me-1"></i>{{ point.text }}</strong></li>
     <li><br></li>
     <li><strong>{{ point.text1 }}</strong></li>
     <li><br></li>
