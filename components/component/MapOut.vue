@@ -9,7 +9,7 @@
         :icon="icon(point.marker)"
       >
         <l-popup>
-          <ListPopup :point="point" />
+          <ListPopup :point="point"/>
         </l-popup>
       </l-marker>
 
@@ -61,7 +61,7 @@
                   class="list-group-item list-group-item-action lh-sm"
                   style="cursor: pointer"
                 >
-                  <list-resalt :result="result" />
+                  <list-resalt :result="result"/>
                 </li>
               </template>
             </ul>
@@ -70,7 +70,7 @@
       </div>
       <div class="row">
         <div class="dropup-center dropup fixed-bottom mb-4 ms-1 p-0">
-          <site-bar :points="points_all" />
+          <site-bar :points="points_all"/>
           <button
             @click="hdAll"
             class="btn dropdown-toggle"
@@ -83,20 +83,29 @@
             <i class="bi bi-list-task"></i>
             Список
           </button>
+          <a
+            href="/"
+            class="btn dropdown-toggle"
+            type="button"
+            style="background: #fff"
+          >
+            <i class="bi bi-arrow-left-short"></i>
+            На головну
+          </a>
           <ul class="dropdown-menu">
             <template v-for="(result, index) in rn_all">
               <li @click="handleRn(result)">
                 <p class="dropdown-item">{{ result }}</p>
               </li>
               <li v-if="index < rn_all.length - 1">
-                <hr class="dropdown-divider" />
+                <hr class="dropdown-divider"/>
               </li>
             </template>
           </ul>
         </div>
       </div>
     </div>
-    <info-link :info="get_info" />
+    <info-link :info="get_info"/>
   </div>
 </template>
 
@@ -106,12 +115,12 @@ import SiteBar from "./SiteBar.vue";
 import ListResalt from "./ListResalt.vue";
 import ListPopup from "./ListPopup.vue";
 import InfoLink from "../modal/InfoLink.vue";
-import { nextTick } from "vue";
+import {nextTick} from "vue";
 import L from "leaflet";
 
 export default {
   name: "NuxtTutorial",
-  components: { InfoLink, ListResalt, SiteBar, ListPopup },
+  components: {InfoLink, ListResalt, SiteBar, ListPopup},
   data() {
     return {
       zoom: 7,
@@ -141,11 +150,11 @@ export default {
       if (path.length > 0) {
         path[0].style.fill = '#ffb4a2';
         path[0].style.stroke = '#ffb4a2';
-         path[1].style.fill = '#96E016';
+        path[1].style.fill = '#96E016';
         path[1].style.stroke = '#96E016';
-         path[2].style.fill = '#033E8C';
+        path[2].style.fill = '#033E8C';
         path[2].style.stroke = '#033E8C';
-         path[3].style.fill = 'green';
+        path[3].style.fill = 'green';
         path[3].style.stroke = 'green';
       }
     });
@@ -162,7 +171,7 @@ export default {
       },
       set(points) {
         this.searchResults = points;
-        return { ...points };
+        return {...points};
       },
     },
     maps_pl() {
