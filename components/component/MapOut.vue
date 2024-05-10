@@ -12,7 +12,8 @@
           <ListPopup :point="point"/>
         </l-popup>
       </l-marker>
-
+      <l-marker :lat-lng="[49.674189, 33.792977]" :icon="labelIcon">
+      </l-marker>
       <l-geo-json :geojson="maps_lb"></l-geo-json>
       <l-geo-json :geojson="maps_polt"></l-geo-json>
       <l-geo-json :geojson="maps_mr"></l-geo-json>
@@ -117,6 +118,7 @@ import ListPopup from "./ListPopup.vue";
 import InfoLink from "../modal/InfoLink.vue";
 import {nextTick} from "vue";
 import L from "leaflet";
+import {LIcon} from "vue2-leaflet";
 
 export default {
   name: "NuxtTutorial",
@@ -135,6 +137,13 @@ export default {
       rn_all: [],
       text_all: "",
       info: [],
+      labelIcon: L.icon({
+        iconUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
+          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="14" font-family="sans-serif" font-weight="bold">Hello World</text></svg>',
+        iconSize: [128, 128],
+        iconAnchor: [128, 128],
+        popupAnchor: [0, -16]
+      })
     };
   },
   mounted() {
