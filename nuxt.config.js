@@ -33,7 +33,7 @@ export default {
   css: [
     '~/assets/style/index.scss',
     '~/node_modules/bootstrap-icons/font/bootstrap-icons.css',
-    '~/node_modules/bootstrap/dist/css/bootstrap.min.css'
+    '~/node_modules/bootstrap/dist/css/bootstrap.min.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

@@ -65,12 +65,12 @@ export default {
       <figure
         class="d-flex flex-column align-items-start link-body-emphasis text-decoration-none mb-0">
         <blockquote class="blockquote">
-         <img src="/images/Polt_OVA.png" class="img-fluid w-50"/>
+         <img src="/images/Polt_OVA.png" class="img-fluid w-55 text-center">
         </blockquote>
         
-        <figcaption class="text-body-secondary fs-6">
+        <strong figcaption class="text-body-secondary fs-6  text-center"> 
           ЦЕНТРИ НАДАННЯ АДМІНІСТРАТИВНИХ ПОСЛУГ
-        </figcaption>
+        </figcaption></strong>
       </figure>      
     </div>
     <div class="offcanvas-body fs-5">

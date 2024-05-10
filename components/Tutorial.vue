@@ -1,16 +1,6 @@
 <!-- Please remove this file from your project -->
-<template>
-  <div class="">
-    <div v-show="img_hidden" class="screen row flex-column justify-content-center align-items-center">
-     <!-- <div class="col-auto"><span class="loader-112">П &nbsp; лтавщина</span></div> -->
-      <div class="col-auto">
-        <img class="object-fit-cover" alt="" src="/screenshots/screenshot-2.png"/>
-      </div>
-    </div>
-    <div v-if="hidden">
+<template>  
       <map-out/>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -20,20 +10,9 @@ export default {
   name: "NuxtTutorial",
   components: {MapOut},
   data() {
-    return {
-      img_hidden: true,
-      hidden: false,
+    return {      
       search: ''
     };
-  },
-  mounted() {
-    setTimeout(this.myFunction, 3000);
-  },
-  methods: {
-    myFunction() {
-      this.hidden = true;
-      this.img_hidden = false;
-    },
   },
   computed: {},
 };

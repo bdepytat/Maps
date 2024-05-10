@@ -1,6 +1,6 @@
 {
-  "appId": "com.poltava_map.myapp",
-  "appName": "poltawa_map",
+  "appId": "com.Digital_CNAP.myapp",
+  "appName": "Digital_CNAP",
   "webDir": "dist",
   "android": {
     "splash": {
