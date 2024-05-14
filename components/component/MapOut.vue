@@ -1,10 +1,10 @@
 <template>
   <div id="map-wrap" style="height: 100vh">
     <l-map :zoom="zoom" :center="center" @click="hiddenBlock">
-    <l-marker :lat-lng="[49.674189, 33.792977]" :icon="labelIcon1"></l-marker>
-    <l-marker :lat-lng="[49.674189, 33.792977]" :icon="labelIcon2"></l-marker>
-    <l-marker :lat-lng="[49.674189, 33.792977]" :icon="labelIcon3"></l-marker>
-    <l-marker :lat-lng="[49.674189, 33.792977]" :icon="labelIcon4"></l-marker>
+    <l-marker :lat-lng="[49.91231, 33.07985]" :icon="labelIcon1"></l-marker>
+    <l-marker :lat-lng="[49.47164, 35.02449]" :icon="labelIcon2"></l-marker>
+    <l-marker :lat-lng="[50.0183, 33.95329]" :icon="labelIcon3"></l-marker>
+    <l-marker :lat-lng="[49.05765, 33.76652]" :icon="labelIcon4"></l-marker>
 
       <l-tile-layer :url="url"></l-tile-layer>  
       <l-marker
@@ -215,28 +215,28 @@ export default {
       info: [],
       labelIcon1: L.icon({
         iconUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
-          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="14" font-family="sans-serif" font-weight="bold">Hello World</text></svg>',
+          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="bold">Лубенський район</text></svg>',
         iconSize: [128, 128],
         iconAnchor: [128, 128],
         popupAnchor: [0, -16]
       }),
       labelIcon2: L.icon({
         iconUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
-          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="14" font-family="sans-serif" font-weight="bold">Hello World</text></svg>',
+          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="bold">Полтавський район</text></svg>',
         iconSize: [128, 128],
         iconAnchor: [128, 128],
         popupAnchor: [0, -16]
       }),
       labelIcon3: L.icon({
         iconUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
-          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="14" font-family="sans-serif" font-weight="bold">Hello World</text></svg>',
+          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="bold">Миргородський район</text></svg>',
         iconSize: [128, 128],
         iconAnchor: [128, 128],
         popupAnchor: [0, -16]
       }),
       labelIcon4: L.icon({
         iconUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
-          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="14" font-family="sans-serif" font-weight="bold">Hello World</text></svg>',
+          '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="bold">Кременчуцький район</text></svg>',
         iconSize: [128, 128],
         iconAnchor: [128, 128],
         popupAnchor: [0, -16]

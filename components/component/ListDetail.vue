@@ -11,7 +11,7 @@ export default {
     parsText4(text) {
       const servicesList = text.slice(text.indexOf(':') + 1).trim().split(', ');
       return '<strong  data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Перелік послуг</strong> ' +
-          '<i class="bi bi-chevron-down"></i>' +
+                '<i class="bi bi-chevron-down"></i>' +
           '<div class="collapse" id="collapseExample">\n  <div class="">' + servicesList.map((service, index) => {
             if (index > 0)
               return `<br>${service}`

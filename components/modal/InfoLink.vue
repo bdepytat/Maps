@@ -1,6 +1,9 @@
 <script>
+import ListResalt from "../component/ListResalt.vue";
+
 export default {
   name: "InfoLink",
+  components: {ListResalt},
   props: ["info"],
   data() {
     return {
@@ -11,9 +14,12 @@ export default {
         "https://placehold.co/600x300",
       ],
       index: null,
+      list: '',
+      searchInput: ''
     };
   },
-  mounted() {},
+  mounted() {
+  },
   computed: {
     get_info() {
       return this.info;
@@ -23,24 +29,65 @@ export default {
     fnCool() {
       this.index = 0;
     },
-    parsText4(text) {
+    searchArr() {
+      this.list = this.get_info.text17.filter((property) =>
+        property.toLowerCase().includes(this.searchInput.toLowerCase())
+      );
+    },
+    parsText4(text, arr) {
       if (text) {
         const servicesList = text
-          .slice(text.indexOf(":") + 1)
           .trim()
-          .split(", ");
-        return (
-          '<strong class="text-primary text-decoration-underline" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Перелік послуг</strong> ' +
+          .split(",");
+        let html = '<strong class="text-primary text-decoration-underline" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Перелік послуг</strong> ' +
           '<i class="bi bi-chevron-down text-primary"></i>' +
-          '<div class="collapse" id="collapseExample">\n  <div class="">' +
-          servicesList.map((service, index) => {
-            if (index > 0) return `<br>${service}`;
-            return `${service}`;
-          }) +
-          "\n  </div>\n</div><br>"
-        );
-      };
-      return "";
+          '<div class="collapse" id="collapseExample"><div class="">' +
+          ' <ul style="font-size: .8rem">';
+
+        for (let i = 0; i < servicesList.length; i++) {
+          if (arr[i] !== undefined) {
+            html += `<li class="text-secondary" data-bs-toggle="collapse"
+                  href="#collapseExample${i}" role="button" aria-expanded="false" aria-controls="collapseExample${i}">${servicesList[i].trim()}<i class="bi bi-chevron-down text-primary"></i>
+                 </li><div class="collapse" id="collapseExample${i}"><div class="">
+                  ${this.parsNext(arr[i])}</div></div>`;
+          } else {
+            html += `<li class="text-secondary">${servicesList[i].trim()}</li>`;
+          }
+        }
+
+        html += "</ul></div></div>";
+        return html;
+      }
+    },
+    parsNext(text) {
+      if (text) {
+        const servicesList = text
+          .trim()
+          .split(",");
+        let html =
+          ' <ul style="font-size: .8rem">';
+
+        for (let i = 0; i < servicesList.length; i++) {
+          html += `<li class="text-secondary">
+                    ${servicesList[i].trim()}
+                 </li>`;
+        }
+
+        html += "</ul>";
+        return html;
+      }
+    },
+    parsSrc(text) {
+      if (text.length > 0) {
+        const servicesList = text
+        let html = '';
+        for (let i = 0; i < servicesList.length; i++) {
+          html += `<div>
+                      ${this.parsNext(servicesList[i])}
+                   </div>`;
+        }
+        return html;
+      }
     },
     getImage(value) {
       if (value.images === null || value.images === undefined) return "https://placehold.co/600x400";
@@ -48,9 +95,9 @@ export default {
     },
     getItems(value) {
       if (value.images === null || value.images === undefined) return this.images;
-      return value.images;      
+      return value.images;
     },
-    getNumb(value){
+    getNumb(value) {
       return value;
     }
   },
@@ -109,25 +156,53 @@ export default {
             </div>
             <div
               v-show="get_info && get_info.text6 && get_info.text6.length > 0"
-              class="border border-danger border-3 p-2 border-opacity-50 mb-3 rounded"
-            >
+              class="border border-danger border-3 p-2 border-opacity-50 mb-3 rounded">
               <p class="text-uppercase fw-bolder text-center m-0">
                 <i class="bi bi-clipboard-check-fill text-danger"></i>
                 {{ get_info.text6 }}
               </p>
             </div>
             <div class="card-body">
-              <p class="card-text" v-html="parsText4(get_info.text4)"></p>
-                 <hr class="border border-secondary border-2 opacity-50" />
-              <div>                
-                   <a :href="'tel:' + get_info.text2">
-                   <strong>
-                  <i class="bi bi-telephone-fill me-1"></i>{{ get_info.text2 }}</strong
-                ></a>
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="form-floating position-relative">
+                  <textarea
+                    class="form-control overflow-hidden"
+                    id="floatingInput"
+                    cols="1"
+                    type="text"
+                    v-model="searchInput"
+                    @input="searchArr"
+                    placeholder="пошук"
+                  ></textarea>
+                    <label for="floatingInput">Пошук послуг</label>
+                    <button
+                      class="btn btn-outline-secondary position-absolute top-0 border-0 end-0"
+                      type="button"
+                      @click="searchInput=''"
+                      id="button-addon2"
+                    >
+                      x
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="card-text"
+                   v-if="searchInput.length <= 0"
+                   v-html="parsText4(get_info.text4, get_info.text17)"></div>
+              <div class="card-text"
+                   v-else
+                   v-html="parsSrc(list)"></div>
+              <hr class="border border-secondary border-2 opacity-50"/>
+              <div>
+                <a :href="'tel:' + get_info.text2">
+                  <strong>
+                    <i class="bi bi-telephone-fill me-1"></i>{{ get_info.text2 }}</strong>
+                </a>
               </div>
               <p class="card-text">
                 <strong class="text-body-secondary me-1"
-                  ><i class="bi bi-geo-alt-fill"></i> {{ get_info.text3 }}</strong
+                ><i class="bi bi-geo-alt-fill"></i> {{ get_info.text3 }}</strong
                 >
               </p>
               <p class="card-text">
@@ -139,32 +214,32 @@ export default {
                 ><small class="text-body-secondary">{{ get_info.text8 }}</small>
               </p>
               <p class="card-text">
-              <hr class="border border-secondary border-2 opacity-50" />
+                <hr class="border border-secondary border-2 opacity-50"/>
                 <i class="bi bi-info-circle-fill text-body-secondary me-1"></i
-              > Доступність:<br>
-              <a :href="get_info.link2" class="text-primery">{{get_info.link2}}</a>
-              <small class="text-body-secondary"><br>{{  get_info.text9 }}</small>
-              <small class="text-body-secondary"><br>{{  get_info.text10 }}</small>
-              <small class="text-body-secondary"><br>{{  get_info.text11 }}</small>
-              <small class="text-body-secondary"><br>{{  get_info.text12 }}</small>
-              
-              <small class=" text-body-secondary"><br>{{  get_info.text13 }}</small>
-              <small class="text-body-secondary"><br>{{  get_info.text14 }}</small>
-             
-               </p>
+                > Доступність:<br>
+                <a :href="get_info.link2" class="text-primery">{{ get_info.link2 }}</a>
+                <small class="text-body-secondary"><br>{{ get_info.text9 }}</small>
+                <small class="text-body-secondary"><br>{{ get_info.text10 }}</small>
+                <small class="text-body-secondary"><br>{{ get_info.text11 }}</small>
+                <small class="text-body-secondary"><br>{{ get_info.text12 }}</small>
+
+                <small class=" text-body-secondary"><br>{{ get_info.text13 }}</small>
+                <small class="text-body-secondary"><br>{{ get_info.text14 }}</small>
+
+              </p>
               <p class="card-text">
-              <hr class="border border-secondary border-2 opacity-50" />
-              <i class="bi bi-info-circle-fill text-body-secondary  me-1
+                <hr class="border border-secondary border-2 opacity-50"/>
+                <i class="bi bi-info-circle-fill text-body-secondary  me-1
               "></i
-              >е-Ветеран:<br>
-                <small strong class="text-body-secondary">{{  get_info.text16 }}</strong></small> 
+                >е-Ветеран:<br>
+                <small strong class="text-body-secondary">{{ get_info.text16 }}</strong></small>
               </p>
 
               <p class="card-text">
-              <hr class="border border-secondary border-2 opacity-50" />
+                <hr class="border border-secondary border-2 opacity-50"/>
                 <i class="bi bi-person-wheelchair me-1"></i
-               > Безбар'єрность:<br>
-              <small strong class="text-body-secondary">{{  get_info.text15 }}</strong></small> 
+                > Безбар'єрность:<br>
+                <small class="text-body-secondary"><strong>{{ get_info.text15 }}</strong></small>
               </p>
             </div>
           </div>
