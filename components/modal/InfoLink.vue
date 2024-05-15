@@ -68,9 +68,18 @@ export default {
           ' <ul style="font-size: .8rem">';
 
         for (let i = 0; i < servicesList.length; i++) {
-          html += `<li class="text-secondary">
-                    ${servicesList[i].trim()}
+          let text_in = servicesList[i].trim()
+          if (this.searchInput.length > 0) {
+            const regex = new RegExp(this.searchInput, 'gi');
+            let text_out = text_in.replace(regex, `<span style="color:#860000">$&</span>`);
+            html += `<li class="text-secondary">
+                    ${text_out}
                  </li>`;
+          } else {
+            html += `<li class="text-secondary">
+                    ${text_in}
+                 </li>`;
+          }
         }
 
         html += "</ul>";
