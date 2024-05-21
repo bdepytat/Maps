@@ -230,22 +230,22 @@ export default {
               <p class="card-text">
                 <i class="bi bi-info-circle-fill text-body-secondary me-1"></i
                 ><small class="text-body-secondary"  data-bs-toggle="collapse" data-bs-target="#collapseExample6" aria-expanded="false"
-                 aria-controls="collapseExample6" style="cursor: pointer;">Кількість: ВРМ:{{ length_vrm_tp(get_info.vrm) }}, ТП:{{ length_vrm_tp(get_info.tp) }}</small>
+                 aria-controls="collapseExample6" style="cursor: pointer;">Кількість: ВРМ: {{ length_vrm_tp(get_info.vrm) }}, ТП: {{ length_vrm_tp(get_info.tp) }}</small>
                  <br>
-                <span id="collapseExample6" class="collapse">                
+                <small id="collapseExample6" class="collapse text-body-secondary">                
                   ВРМ:
-                  <ul>
+                  <ul >
                     <li v-for="item in get_info.vrm">
                       {{ item }}
                     </li>
                   </ul>
                   ТП:
-                  <ul>
+                  <ul >
                     <li v-for="item in get_info.tp">
                       {{ item }}
                     </li>
                   </ul>
-                </span>
+                </small>
               </p>
               <p class="card-text">
                 <hr class="border border-secondary border-2 opacity-50"/>      
