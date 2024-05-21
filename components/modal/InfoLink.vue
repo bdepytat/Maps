@@ -229,8 +229,8 @@ export default {
               </p>
               <p class="card-text">
                 <i class="bi bi-info-circle-fill text-body-secondary me-1"></i
-                ><small class="text-body-secondary"  data-bs-toggle="collapse" data-bs-target="#collapseExample6" aria-expanded="false"
-                 aria-controls="collapseExample6" style="cursor: pointer;">Кількість: ВРМ: {{ length_vrm_tp(get_info.vrm) }}, ТП: {{ length_vrm_tp(get_info.tp) }}</small>
+                ><small class="text-primary"  data-bs-toggle="collapse" data-bs-target="#collapseExample6" aria-expanded="false"
+                 aria-controls="collapseExample6" style="cursor: pointer;">Кількість: ВРМ: {{ length_vrm_tp(get_info.vrm) }}, ТП: {{ length_vrm_tp(get_info.tp) }} <i class="bi bi-chevron-down text-primary"></i></small>
                  <br>
                 <small id="collapseExample6" class="collapse text-body-secondary">                
                   ВРМ:
