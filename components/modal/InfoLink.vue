@@ -15,7 +15,8 @@ export default {
       ],
       index: null,
       list: '',
-      searchInput: ''
+      searchInput: '',
+      ln_v_t: 0
     };
   },
   mounted() {
@@ -25,7 +26,13 @@ export default {
       return this.info;
     },
   },
-  methods: {
+  methods: {       
+    length_vrm_tp(item) {
+    if (item !== undefined) {
+      return item.length !== undefined ? item.length : 0;
+    }
+    return 0;
+  },
     fnCool() {
       this.index = 0;
     },
@@ -185,12 +192,14 @@ export default {
                     placeholder="пошук"
                   ></textarea>
                     <label for="floatingInput">Пошук послуг</label>
+                    
                     <button
-                      class="btn btn-outline-secondary position-absolute top-0 border-0 end-0"
+                      class="bi bi-search btn btn-outline-secondary position-absolute top-0 border-0 end-0 " 
                       type="button"
                       @click="searchInput=''"
                       id="button-addon2"
                     >
+                    
                       x
                     </button>
                   </div>
@@ -220,12 +229,28 @@ export default {
               </p>
               <p class="card-text">
                 <i class="bi bi-info-circle-fill text-body-secondary me-1"></i
-                ><small class="text-body-secondary">{{ get_info.text8 }}</small>
+                ><small class="text-body-secondary"  data-bs-toggle="collapse" data-bs-target="#collapseExample6" aria-expanded="false"
+                 aria-controls="collapseExample6" style="cursor: pointer;">Кількість: ВРМ:{{ length_vrm_tp(get_info.vrm) }}, ТП:{{ length_vrm_tp(get_info.tp) }}</small>
+                 <br>
+                <span id="collapseExample6" class="collapse">                
+                  ВРМ:
+                  <ul>
+                    <li v-for="item in get_info.vrm">
+                      {{ item }}
+                    </li>
+                  </ul>
+                  ТП:
+                  <ul>
+                    <li v-for="item in get_info.tp">
+                      {{ item }}
+                    </li>
+                  </ul>
+                </span>
               </p>
               <p class="card-text">
-                <hr class="border border-secondary border-2 opacity-50"/>
+                <hr class="border border-secondary border-2 opacity-50"/>      
                 <i class="bi bi-info-circle-fill text-body-secondary me-1"></i
-                > Доступність:<br>
+                >Доступність:<br>
                 <a :href="get_info.link2" class="text-primery">{{ get_info.link2 }}</a>
                 <small class="text-body-secondary"><br>{{ get_info.text9 }}</small>
                 <small class="text-body-secondary"><br>{{ get_info.text10 }}</small>
@@ -234,14 +259,13 @@ export default {
 
                 <small class=" text-body-secondary"><br>{{ get_info.text13 }}</small>
                 <small class="text-body-secondary"><br>{{ get_info.text14 }}</small>
-
-              </p>
+                </p>
               <p class="card-text">
                 <hr class="border border-secondary border-2 opacity-50"/>
                 <i class="bi bi-info-circle-fill text-body-secondary  me-1
               "></i
                 >е-Ветеран:<br>
-                <small strong class="text-body-secondary">{{ get_info.text16 }}</strong></small>
+                <small  class="text-body-secondary"> <strong>{{ get_info.text16 }}</strong></small>
               </p>
 
               <p class="card-text">
