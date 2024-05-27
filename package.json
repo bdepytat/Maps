@@ -10,8 +10,10 @@
     "generate": "nuxt generate",
     "cap_init": "npx cap init",
     "cap_android": "npx cap add android",
+    "cap_ios": "npx cap add ios",
     "cap_sync": "npx cap sync",
     "cap_open": "npx cap open android",
+    "cap_open_ios": "npx cap open ios",
     "ionic:build": "npm run build",
     "ionic:serve": "npm run start"
   },
@@ -19,6 +21,7 @@
     "@capacitor/android": "6.0.0",
     "@capacitor/cli": "^6.0.0",
     "@capacitor/core": "^6.0.0",
+    "@capacitor/ios": "^6.0.0",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/style-resources": "^1.2.2",
     "bootstrap": "5.3.3",

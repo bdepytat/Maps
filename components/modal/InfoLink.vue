@@ -253,7 +253,7 @@ export default {
                 >Доступність:<br>
                 <a :href="get_info.link2" class="text-primery">{{ get_info.link2 }}</a>
                 <small class="text-body-secondary"><br>{{ get_info.text9 }}</small>
-                <small class="text-body-secondary"><br>{{ get_info.text10 }}</small>
+                <a :href="get_info.link3" target="_blank " > {{get_info.text10}}</a>
                 <small class="text-body-secondary"><br>{{ get_info.text11 }}</small>
                 <small class="text-body-secondary"><br>{{ get_info.text12 }}</small>
 

@@ -1,17 +1,18 @@
 <template>
   <div id="map-wrap" style="height: 100vh">
-    <l-map :zoom="zoom" :center="center" @click="hiddenBlock">
-    <l-marker :lat-lng="[49.91231, 33.07985]" :icon="labelIcon1"></l-marker>
-    <l-marker :lat-lng="[49.47164, 35.02449]" :icon="labelIcon2"></l-marker>
-    <l-marker :lat-lng="[50.0183, 33.95329]" :icon="labelIcon3"></l-marker>
-    <l-marker :lat-lng="[49.05765, 33.76652]" :icon="labelIcon4"></l-marker>
+    <l-map :zoom="zoom" :center="center" @click="hiddenBlock" @popupclose="onPopupClose">
+      <l-marker :lat-lng="[49.91231, 33.07985]" :icon="labelIcon1"></l-marker>
+      <l-marker :lat-lng="[49.47164, 35.02449]" :icon="labelIcon2"></l-marker>
+      <l-marker :lat-lng="[50.0183, 33.95329]" :icon="labelIcon3"></l-marker>
+      <l-marker :lat-lng="[49.05765, 33.76652]" :icon="labelIcon4"></l-marker>
 
-      <l-tile-layer :url="url"></l-tile-layer>  
+      <l-tile-layer :url="url"></l-tile-layer>
       <l-marker
         v-for="(point, index) in points"
         :key="index"
         :lat-lng="point.latlng"
         :icon="icon(point.marker)"
+        @click="poligonHighlight(point.map)"
       >
         <l-popup>
           <ListPopup :point="point"/>
@@ -19,8 +20,7 @@
       </l-marker>
 
 
-    
-       <!-- 4 Райони-->
+      <!-- 4 Райони-->
       <l-geo-json :geojson="maps_lb_rn"></l-geo-json>
       <l-geo-json :geojson="maps_polt"></l-geo-json>
       <l-geo-json :geojson="maps_mr_rn"></l-geo-json>
@@ -61,7 +61,7 @@
       <l-geo-json :geojson="maps_pl23"></l-geo-json>
       <l-geo-json :geojson="maps_pl24"></l-geo-json>
 
-     <!--Миргородський р-н>-->
+      <!--Миргородський р-н>-->
       <l-geo-json :geojson="maps_mr1"></l-geo-json>
       <l-geo-json :geojson="maps_mr2"></l-geo-json>
       <l-geo-json :geojson="maps_mr3"></l-geo-json>
@@ -94,6 +94,9 @@
       <l-geo-json :geojson="maps_kr11"></l-geo-json>
       <l-geo-json :geojson="maps_kr12"></l-geo-json>
 
+      <l-geo-json :geojson="geo_json"
+                  :options-style="options_style"
+      ></l-geo-json>
     </l-map>
     <div class="container">
       <div class="row">
@@ -198,7 +201,7 @@ import L from "leaflet";
 
 export default {
   name: "NuxtTutorial",
-  components: {InfoLink, ListResalt, SiteBar, ListPopup,  LGridLayer},
+  components: {InfoLink, ListResalt, SiteBar, ListPopup, LGridLayer},
   data() {
     return {
       zoom: 8,
@@ -241,6 +244,7 @@ export default {
         iconAnchor: [128, 128],
         popupAnchor: [0, -16]
       }),
+      geo_js: [],
       tileComponent: {
         name: 'tile-component',
         props: {
@@ -260,11 +264,8 @@ export default {
     foot_text.style.display = "none";
     nextTick(() => {
       const path = document.querySelectorAll("#map-wrap .leaflet-interactive:not(img)");
-      console.dir(path);
-      //path.style.fill = 'green';
-      //path.style.stroke = 'green';
-       if (path.length > 0) {
-      //Лубенський р-н
+      if (path.length > 0) {
+        //Лубенський р-н
         path[0].style.fill = '#ffb4a2';
         path[0].style.stroke = '#ffb4a2';
         path[4].style.fill = '#ffb4a2';
@@ -282,130 +283,148 @@ export default {
         path[10].style.fill = '#ffb4a2';
         path[10].style.stroke = '#e3655b';
 
-       //Полтавський р-н
-       path[1].style.fill = '#82BF45';
-       path[1].style.stroke = '#5b8c5a';
-       path[11].style.fill = '#82BF45';
-       path[11].style.stroke = '#5b8c5a';
-       path[12].style.fill = '#82BF45';
-       path[12].style.stroke = '#5b8c5a';
-       path[13].style.fill = '#82BF45';
-       path[13].style.stroke = '#5b8c5a';
-       path[14].style.fill = '#82BF45';
-       path[14].style.stroke = '#5b8c5a';
-       path[15].style.fill = '#82BF45';
-       path[15].style.stroke = '#5b8c5a';
-       path[16].style.fill = '#82BF45';
-       path[16].style.stroke = '#5b8c5a';
-       path[17].style.fill = '#82BF45';
-       path[17].style.stroke = '#5b8c5a';
-       path[18].style.fill = '#82BF45';
-       path[18].style.stroke = '#5b8c5a';
-       path[19].style.fill = '#82BF45';
-       path[19].style.stroke = '#5b8c5a';
-       path[20].style.fill = '#82BF45';
-       path[20].style.stroke = '#5b8c5a';
-       path[21].style.fill = '#82BF45';
-       path[21].style.stroke = '#5b8c5a';
-       path[22].style.fill = '#82BF45';
-       path[22].style.stroke = '#5b8c5a';
-       path[23].style.fill = '#82BF45';
-       path[23].style.stroke = '#5b8c5a';
-       path[24].style.fill = '#82BF45';
-       path[24].style.stroke = '#5b8c5a';
-       path[25].style.fill = '#82BF45';
-       path[25].style.stroke = '#5b8c5a';
-       path[26].style.fill = '#82BF45';
-       path[26].style.stroke = '#5b8c5a';
-       path[27].style.fill = '#82BF45';
-       path[27].style.stroke = '#5b8c5a';
-       path[28].style.fill = '#82BF45';
-       path[28].style.stroke = '#5b8c5a';
-       path[29].style.fill = '#82BF45';
-       path[29].style.stroke = '#5b8c5a';
-       path[30].style.fill = '#82BF45';
-       path[30].style.stroke = '#5b8c5a';
-       path[31].style.fill = '#82BF45';
-       path[31].style.stroke = '#5b8c5a';
-       path[32].style.fill = '#82BF45';
-       path[32].style.stroke = '#5b8c5a';
-       path[33].style.fill = '#82BF45';
-       path[33].style.stroke = '#5b8c5a';
-       path[34].style.fill = '#82BF45';
-       path[34].style.stroke = '#5b8c5a';
+        //Полтавський р-н
+        path[1].style.fill = '#82BF45';
+        path[1].style.stroke = '#5b8c5a';
+        path[11].style.fill = '#82BF45';
+        path[11].style.stroke = '#5b8c5a';
+        path[12].style.fill = '#82BF45';
+        path[12].style.stroke = '#5b8c5a';
+        path[13].style.fill = '#82BF45';
+        path[13].style.stroke = '#5b8c5a';
+        path[14].style.fill = '#82BF45';
+        path[14].style.stroke = '#5b8c5a';
+        path[15].style.fill = '#82BF45';
+        path[15].style.stroke = '#5b8c5a';
+        path[16].style.fill = '#82BF45';
+        path[16].style.stroke = '#5b8c5a';
+        path[17].style.fill = '#82BF45';
+        path[17].style.stroke = '#5b8c5a';
+        path[18].style.fill = '#82BF45';
+        path[18].style.stroke = '#5b8c5a';
+        path[19].style.fill = '#82BF45';
+        path[19].style.stroke = '#5b8c5a';
+        path[20].style.fill = '#82BF45';
+        path[20].style.stroke = '#5b8c5a';
+        path[21].style.fill = '#82BF45';
+        path[21].style.stroke = '#5b8c5a';
+        path[22].style.fill = '#82BF45';
+        path[22].style.stroke = '#5b8c5a';
+        path[23].style.fill = '#82BF45';
+        path[23].style.stroke = '#5b8c5a';
+        path[24].style.fill = '#82BF45';
+        path[24].style.stroke = '#5b8c5a';
+        path[25].style.fill = '#82BF45';
+        path[25].style.stroke = '#5b8c5a';
+        path[26].style.fill = '#82BF45';
+        path[26].style.stroke = '#5b8c5a';
+        path[27].style.fill = '#82BF45';
+        path[27].style.stroke = '#5b8c5a';
+        path[28].style.fill = '#82BF45';
+        path[28].style.stroke = '#5b8c5a';
+        path[29].style.fill = '#82BF45';
+        path[29].style.stroke = '#5b8c5a';
+        path[30].style.fill = '#82BF45';
+        path[30].style.stroke = '#5b8c5a';
+        path[31].style.fill = '#82BF45';
+        path[31].style.stroke = '#5b8c5a';
+        path[32].style.fill = '#82BF45';
+        path[32].style.stroke = '#5b8c5a';
+        path[33].style.fill = '#82BF45';
+        path[33].style.stroke = '#5b8c5a';
+        path[34].style.fill = '#82BF45';
+        path[34].style.stroke = '#5b8c5a';
 
-     //Миргородський р-н
-       path[2].style.fill = '#9519ad';
-       path[2].style.stroke = '#9519ad';
-       path[35].style.fill = '#9519ad';
-       path[35].style.stroke = '#9519ad';
-       path[36].style.fill = '#9519ad';
-       path[36].style.stroke = '#9519ad';
-       path[37].style.fill = '#9519ad';
-       path[37].style.stroke = '#9519ad';
-       path[38].style.fill = '#9519ad';
-       path[38].style.stroke = '#9519ad';
-       path[39].style.fill = '#9519ad';
-       path[39].style.stroke = '#9519ad';
-       path[40].style.fill = '#9519ad';
-       path[40].style.stroke = '#9519ad';
-       path[41].style.fill = '#9519ad';
-       path[41].style.stroke = '#9519ad';
-       path[42].style.fill = '#9519ad';
-       path[42].style.stroke = '#9519ad';
-       path[43].style.fill = '#9519ad';
-       path[43].style.stroke = '#9519ad';
-       path[44].style.fill = '#9519ad';
-       path[44].style.stroke = '#9519ad';
-       path[45].style.fill = '#9519ad';
-       path[45].style.stroke = '#9519ad';
-       path[46].style.fill = '#9519ad';
-       path[46].style.stroke = '#9519ad';
-       path[47].style.fill = '#9519ad';
-       path[47].style.stroke = '#9519ad';
-       path[48].style.fill = '#9519ad';
-       path[48].style.stroke = '#9519ad';
-       path[49].style.fill = '#9519ad';
-       path[49].style.stroke = '#9519ad';
-       path[50].style.fill = '#9519ad';
-       path[50].style.stroke = '#9519ad';
-       path[51].style.fill = '#9519ad';
-       path[51].style.stroke = '#9519ad';
+        //Миргородський р-н
+        path[2].style.fill = '#9519ad';
+        path[2].style.stroke = '#9519ad';
+        path[35].style.fill = '#9519ad';
+        path[35].style.stroke = '#9519ad';
+        path[36].style.fill = '#9519ad';
+        path[36].style.stroke = '#9519ad';
+        path[37].style.fill = '#9519ad';
+        path[37].style.stroke = '#9519ad';
+        path[38].style.fill = '#9519ad';
+        path[38].style.stroke = '#9519ad';
+        path[39].style.fill = '#9519ad';
+        path[39].style.stroke = '#9519ad';
+        path[40].style.fill = '#9519ad';
+        path[40].style.stroke = '#9519ad';
+        path[41].style.fill = '#9519ad';
+        path[41].style.stroke = '#9519ad';
+        path[42].style.fill = '#9519ad';
+        path[42].style.stroke = '#9519ad';
+        path[43].style.fill = '#9519ad';
+        path[43].style.stroke = '#9519ad';
+        path[44].style.fill = '#9519ad';
+        path[44].style.stroke = '#9519ad';
+        path[45].style.fill = '#9519ad';
+        path[45].style.stroke = '#9519ad';
+        path[46].style.fill = '#9519ad';
+        path[46].style.stroke = '#9519ad';
+        path[47].style.fill = '#9519ad';
+        path[47].style.stroke = '#9519ad';
+        path[48].style.fill = '#9519ad';
+        path[48].style.stroke = '#9519ad';
+        path[49].style.fill = '#9519ad';
+        path[49].style.stroke = '#9519ad';
+        path[50].style.fill = '#9519ad';
+        path[50].style.stroke = '#9519ad';
+        path[51].style.fill = '#9519ad';
+        path[51].style.stroke = '#9519ad';
 
 
-
-      //Кременчуцький р-н
-       path[3].style.fill = '#FDE003';
-       path[3].style.stroke = '#F09308';
-       path[52].style.fill = '#FDE003';
-       path[52].style.stroke = '#F09308';
-       path[53].style.fill = '#FDE003';
-       path[53].style.stroke = '#F09308';
-       path[54].style.fill = '#FDE003';
-       path[54].style.stroke = '#F09308';
-       path[55].style.fill = '#FDE003';
-       path[55].style.stroke = '#F09308';
-       path[56].style.fill = '#FDE003';
-       path[56].style.stroke = '#F09308';
-       path[57].style.fill = '#FDE003';
-       path[57].style.stroke = '#F09308';
-       path[58].style.fill = '#FDE003';
-       path[58].style.stroke = '#F09308';
-       path[59].style.fill = '#FDE003';
-       path[59].style.stroke = '#F09308';
-       path[60].style.fill = '#FDE003';
-       path[60].style.stroke = '#F09308';
-       path[61].style.fill = '#FDE003';
-       path[61].style.stroke = '#F09308';
-       path[62].style.fill = '#FDE003';
-       path[62].style.stroke = '#F09308';
-       path[63].style.fill = '#FDE003';
-       path[63].style.stroke = '#F09308';
+        //Кременчуцький р-н
+        path[3].style.fill = '#FDE003';
+        path[3].style.stroke = '#F09308';
+        path[52].style.fill = '#FDE003';
+        path[52].style.stroke = '#F09308';
+        path[53].style.fill = '#FDE003';
+        path[53].style.stroke = '#F09308';
+        path[54].style.fill = '#FDE003';
+        path[54].style.stroke = '#F09308';
+        path[55].style.fill = '#FDE003';
+        path[55].style.stroke = '#F09308';
+        path[56].style.fill = '#FDE003';
+        path[56].style.stroke = '#F09308';
+        path[57].style.fill = '#FDE003';
+        path[57].style.stroke = '#F09308';
+        path[58].style.fill = '#FDE003';
+        path[58].style.stroke = '#F09308';
+        path[59].style.fill = '#FDE003';
+        path[59].style.stroke = '#F09308';
+        path[60].style.fill = '#FDE003';
+        path[60].style.stroke = '#F09308';
+        path[61].style.fill = '#FDE003';
+        path[61].style.stroke = '#F09308';
+        path[62].style.fill = '#FDE003';
+        path[62].style.stroke = '#F09308';
+        path[63].style.fill = '#FDE003';
+        path[63].style.stroke = '#F09308';
       }
     });
   },
 
   computed: {
+    geo_json: {
+      get() {
+        return this.geo_js;
+      },
+      set(item) {
+        this.geo_js = item;
+        return this.geo_js;
+      }
+    },
+    options_style() {
+      return {
+        fillColor: "#fdfcfc",
+        weight: 2,
+        opacity: 1,
+        color: "#eae7e7",
+        dashArray: "3",
+        fillOpacity: 0.7
+      };
+    },
     get_info() {
       return this.info;
     },
@@ -419,7 +438,7 @@ export default {
         return {...points};
       },
     },
-     maps_pl() {
+    maps_pl() {
       return geoPoint.map_poltava;
     },
 
@@ -476,7 +495,7 @@ export default {
     maps_pl8() {
       return geoPoint.map_pl8;
     },
-       maps_pl9() {
+    maps_pl9() {
       return geoPoint.map_pl9;
     },
     maps_pl10() {
@@ -530,7 +549,7 @@ export default {
       return geoPoint.map_mr_rn;
     },
     maps_mr1() {
-     return geoPoint.map_mr1;
+      return geoPoint.map_mr1;
     },
     maps_mr2() {
       return geoPoint.map_mr2;
@@ -577,7 +596,7 @@ export default {
     maps_mr16() {
       return geoPoint.map_mr16;
     },
-     maps_mr17() {
+    maps_mr17() {
       return geoPoint.map_mr17;
     },
 
@@ -595,35 +614,45 @@ export default {
     maps_kr3() {
       return geoPoint.map_kr3;
     },
-     maps_kr4() {
+    maps_kr4() {
       return geoPoint.map_kr4;
     },
     maps_kr5() {
       return geoPoint.map_kr5;
     },
-     maps_kr6() {
+    maps_kr6() {
       return geoPoint.map_kr6;
     },
-     maps_kr7() {
+    maps_kr7() {
       return geoPoint.map_kr7;
     },
-     maps_kr8() {
+    maps_kr8() {
       return geoPoint.map_kr8;
     },
-     maps_kr9() {
+    maps_kr9() {
       return geoPoint.map_kr9;
     },
-      maps_kr10() {
+    maps_kr10() {
       return geoPoint.map_kr10;
     },
-      maps_kr11() {
+    maps_kr11() {
       return geoPoint.map_kr11;
     },
-      maps_kr12() {
+    maps_kr12() {
       return geoPoint.map_kr12;
     },
   },
   methods: {
+    onPopupClose() {
+      this.poligonHighlight(null)
+    },
+    poligonHighlight(map) {
+      if (map !== null) {
+        this.geo_json = geoPoint[map];
+      } else {
+        this.geo_json = [];
+      }
+    },
     icon(link) {
       return L.icon({
         iconUrl: link,

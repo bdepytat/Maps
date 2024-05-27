@@ -34,6 +34,8 @@ export default {
       <span class="text-wrap">{{ result.text7 }}</span>
       <span class="text-wrap">{{ result.text8 }}</span>
       <span class="text-wrap">{{ result.link2 }}</span>
+      
+      
       <span></span>
     </div>
   </div>

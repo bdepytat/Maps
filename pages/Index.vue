@@ -70,15 +70,22 @@ export default {
                     />
                   </div>
                   <div class="col-auto">
-                  <div class="d-flex align-items-end h-100">                 
-                    <div class="card-body">
-                      <h1 class="text-center fw-bolder" style="color: #033e8c; font-size: 4rem">
-                        185
-                      </h1>
-                      <p class="text-center" style="font-style: italic; line-height: 1.8">
-                        загальна кількість точок доступу в Полтавській області
-                      </p>
-                    </div></div>
+                    <div class="d-flex align-items-end h-100">
+                      <div class="card-body">
+                        <h1
+                          class="text-center fw-bolder"
+                          style="color: #033e8c; font-size: 4rem"
+                        >
+                          200
+                        </h1>
+                        <p
+                          class="text-center"
+                          style="font-style: italic; line-height: 1.8"
+                        >
+                          загальна кількість точок доступу в Полтавській області
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -88,6 +95,13 @@ export default {
             <slick-cl />
           </div>
           <div class="col-md-3 col-12 mb-3">
+              <a
+              href="map"
+              class="btn btn_home btn-lg w-100 my-2"
+              style="background-color: #593c8f; color: #fff"
+              type="button"
+              ><i class="bi bi-map text-withe me-1"></i>Карта</a
+            >
             <a
               href="map"
               class="btn btn-primary btn_home btn-lg w-100 my-2"
@@ -95,15 +109,6 @@ export default {
               style="background-color: #033e8c; color: #fff"
               ><i class="bi bi-search me-1"></i>Пошук</a
             >
-
-            <a
-              href="map"
-              class="btn btn_home btn-lg w-100 my-2"
-              style="background-color: #593c8f; color: #fff"
-              type="button"
-              ><i class="bi bi-pin-map-fill text-withe me-1"></i>Карта</a
-            >
-
             <button
               class="text-white btn btn-warning btn_home btn-lg w-100 my-2"
               data-bs-toggle="offcanvas"
@@ -113,6 +118,13 @@ export default {
             >
               <span> <i class="bi bi-list-task me-1 bi_vertical"></i>Список</span>
             </button>
+
+            <a href="info" class="btn btn-outline-primary btn_home btn-lg w-100 my-2">
+              <span>
+                <i class="bi bi-chat-quote me-1 "></i>Допомога і
+                підтримка</span
+              >
+            </a>
           </div>
         </div>
       </div>
@@ -135,6 +147,6 @@ export default {
   background-image: none;
   box-shadow: 5px 5px 20px 0 rgba(0, 0, 0, 0.2);
   margin: 34px auto 60px;
-  padding: 18px 58px 19px 56px;
+  padding: 18px 0 19px 0;
 }
 </style>
