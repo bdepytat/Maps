@@ -20,13 +20,28 @@
           <ListPopup :point="point" />
         </l-popup>
       </l-marker>
-      <l-marker :lat-lng="pnt_lng" :icon="pnt_icon" :visible="marker_vs">
-      </l-marker>
+      <l-marker :lat-lng="pnt_lng" :icon="pnt_icon" :visible="marker_vs"> </l-marker>
 
-      <l-marker :visible="marker_vs" :lat-lng="[49.91231, 33.07985]" :icon="labelIcon1"></l-marker>
-      <l-marker :visible="marker_vs" :lat-lng="[49.47164, 35.02449]" :icon="labelIcon2"></l-marker>
-      <l-marker :visible="marker_vs" :lat-lng="[50.0183, 33.95329]" :icon="labelIcon3"></l-marker>
-      <l-marker :visible="marker_vs" :lat-lng="[49.05765, 33.76652]" :icon="labelIcon4"></l-marker>
+      <l-marker
+        :visible="marker_vs2"
+        :lat-lng="[49.91231, 33.07985]"
+        :icon="labelIcon1"
+      ></l-marker>
+      <l-marker
+        :visible="marker_vs2"
+        :lat-lng="[49.47164, 35.02449]"
+        :icon="labelIcon2"
+      ></l-marker>
+      <l-marker
+        :visible="marker_vs2"
+        :lat-lng="[50.0183, 33.95329]"
+        :icon="labelIcon3"
+      ></l-marker>
+      <l-marker
+        :visible="marker_vs2"
+        :lat-lng="[49.05765, 33.76652]"
+        :icon="labelIcon4"
+      ></l-marker>
 
       <!-- 4 Райони-->
       <l-geo-json :geojson="maps_lb_rn"></l-geo-json>
@@ -206,7 +221,8 @@ export default {
   data() {
     return {
       zoom: 8,
-      vs_zoom: 8,
+      vs_zoom: true,
+      vs2_zoom: false,
       center: [49.674189, 33.792977],
       url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
       attribution: "",
@@ -429,6 +445,15 @@ export default {
       set(item) {
         this.vs_zoom = item;
         return this.vs_zoom;
+      },
+    },
+    marker_vs2: {
+      get() {
+        return this.vs2_zoom;
+      },
+      set(item) {
+        this.vs2_zoom = item;
+        return this.vs2_zoom;
       },
     },
     pnt_lng: {
@@ -682,8 +707,15 @@ export default {
       }
       return true;
     },
+    isMarkerVisibleText(zoom) {
+      if (zoom < 10) {
+        return false;
+      }
+      return true;
+    },
     updateMarkersVisibility(event) {
       this.marker_vs = this.isMarkerVisible(event.target._zoom);
+      this.marker_vs2 = this.isMarkerVisibleText(event.target._zoom);
     },
     onPopupClose() {
       this.poligonHighlight(null, null);
