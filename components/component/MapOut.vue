@@ -1,31 +1,33 @@
 <template>
   <div id="map-wrap" style="height: 100vh">
-    <l-map :zoom="zoom" :center="center" @click="hiddenBlock" @popupclose="onPopupClose">     
-
+    <l-map
+      :zoom="zoom"
+      :center="center"
+      @click="hiddenBlock"
+      @zoomend="updateMarkersVisibility"
+      @popupclose="onPopupClose"
+    >
       <l-tile-layer :url="url"></l-tile-layer>
       <l-marker
         v-for="(point, index) in points"
         :key="index"
         :lat-lng="point.latlng"
         :icon="icon(point.marker)"
+        :visible="marker_vs"
         @click="poligonHighlight(point.map, point.latlng)"
       >
         <l-popup>
-          <ListPopup :point="point"/>
+          <ListPopup :point="point" />
         </l-popup>
       </l-marker>
-      <l-marker
-        :lat-lng="pnt_lng"
-        :icon="pnt_icon"
-      >
+      <l-marker :lat-lng="pnt_lng" :icon="pnt_icon" :visible="marker_vs">
       </l-marker>
-    
-      
-      <l-marker :lat-lng="[49.91231, 33.07985]"  :icon="labelIcon1"></l-marker>
-      <l-marker :lat-lng="[49.47164, 35.02449]" :icon="labelIcon2"></l-marker>
-      <l-marker :lat-lng="[50.0183, 33.95329]" :icon="labelIcon3"></l-marker>
-      <l-marker :lat-lng="[49.05765, 33.76652]" :icon="labelIcon4"></l-marker>
-    
+
+      <l-marker :visible="marker_vs" :lat-lng="[49.91231, 33.07985]" :icon="labelIcon1"></l-marker>
+      <l-marker :visible="marker_vs" :lat-lng="[49.47164, 35.02449]" :icon="labelIcon2"></l-marker>
+      <l-marker :visible="marker_vs" :lat-lng="[50.0183, 33.95329]" :icon="labelIcon3"></l-marker>
+      <l-marker :visible="marker_vs" :lat-lng="[49.05765, 33.76652]" :icon="labelIcon4"></l-marker>
+
       <!-- 4 Райони-->
       <l-geo-json :geojson="maps_lb_rn"></l-geo-json>
       <l-geo-json :geojson="maps_polt"></l-geo-json>
@@ -100,9 +102,7 @@
       <l-geo-json :geojson="maps_kr11"></l-geo-json>
       <l-geo-json :geojson="maps_kr12"></l-geo-json>
 
-      <l-geo-json :geojson="geo_json"
-                  :options-style="options_style"
-      ></l-geo-json>
+      <l-geo-json :geojson="geo_json" :options-style="options_style"></l-geo-json>
     </l-map>
     <div class="container">
       <div class="row">
@@ -147,7 +147,7 @@
                   class="list-group-item list-group-item-action lh-sm"
                   style="cursor: pointer"
                 >
-                  <list-resalt :result="result"/>
+                  <list-resalt :result="result" />
                 </li>
               </template>
             </ul>
@@ -156,7 +156,7 @@
       </div>
       <div class="row">
         <div class="dropup-center dropup fixed-bottom mb-4 ms-1 p-0">
-          <site-bar :points="points_all"/>
+          <site-bar :points="points_all" />
           <button
             @click="hdAll"
             class="btn dropdown-toggle"
@@ -169,12 +169,7 @@
             <i class="bi bi-list-task"></i>
             Список
           </button>
-          <a
-            href="/"
-            class="btn dropdown-toggle"
-            type="button"
-            style="background: #fff"
-          >
+          <a href="/" class="btn dropdown-toggle" type="button" style="background: #fff">
             <i class="bi bi-arrow-left-short"></i>
             На головну
           </a>
@@ -184,14 +179,14 @@
                 <p class="dropdown-item">{{ result }}</p>
               </li>
               <li v-if="index < rn_all.length - 1">
-                <hr class="dropdown-divider"/>
+                <hr class="dropdown-divider" />
               </li>
             </template>
           </ul>
         </div>
       </div>
     </div>
-    <info-link :info="get_info"/>
+    <info-link :info="get_info" />
   </div>
 </template>
 
@@ -200,17 +195,18 @@ import geoPoint from "~/api/point.js";
 import SiteBar from "./SiteBar.vue";
 import ListResalt from "./ListResalt.vue";
 import ListPopup from "./ListPopup.vue";
-import {LGridLayer} from 'vue2-leaflet';
+import { LGridLayer } from "vue2-leaflet";
 import InfoLink from "../modal/InfoLink.vue";
-import {nextTick} from "vue";
+import { nextTick } from "vue";
 import L from "leaflet";
 
 export default {
   name: "NuxtTutorial",
-  components: {InfoLink, ListResalt, SiteBar, ListPopup, LGridLayer},
+  components: { InfoLink, ListResalt, SiteBar, ListPopup, LGridLayer },
   data() {
     return {
       zoom: 8,
+      vs_zoom: 8,
       center: [49.674189, 33.792977],
       url: "https://{s}.tile.osm.org/{z}/{x}/{y}.png",
       attribution: "",
@@ -223,45 +219,49 @@ export default {
       text_all: "",
       info: [],
       labelIcon1: L.icon({
-        iconUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
+        iconUrl:
+          'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
           '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="bold">Лубенський район</text></svg>',
         iconSize: [128, 128],
         iconAnchor: [128, 128],
-        popupAnchor: [0, -16]
+        popupAnchor: [0, -16],
       }),
       labelIcon2: L.icon({
-        iconUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
+        iconUrl:
+          'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
           '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="bold">Полтавський район</text></svg>',
         iconSize: [128, 128],
         iconAnchor: [128, 128],
-        popupAnchor: [0, -16]
+        popupAnchor: [0, -16],
       }),
       labelIcon3: L.icon({
-        iconUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
+        iconUrl:
+          'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
           '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="bold">Миргородський район</text></svg>',
         iconSize: [128, 128],
         iconAnchor: [128, 128],
-        popupAnchor: [0, -16]
+        popupAnchor: [0, -16],
       }),
       labelIcon4: L.icon({
-        iconUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
+        iconUrl:
+          'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' +
           '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="bold">Кременчуцький район</text></svg>',
         iconSize: [128, 128],
         iconAnchor: [128, 128],
-        popupAnchor: [0, -16]
+        popupAnchor: [0, -16],
       }),
       geo_js: [],
-      pn_lt: [0,0],
+      pn_lt: [0, 0],
       icLn: "/",
       tileComponent: {
-        name: 'tile-component',
+        name: "tile-component",
         props: {
           coords: {
             type: Object,
-            required: true
-          }
+            required: true,
+          },
         },
-        template: '<div>Coords: {{coords.x}}, {{coords.y}}, {{coords.z}}</div>'
+        template: "<div>Coords: {{coords.x}}, {{coords.y}}, {{coords.z}}</div>",
       },
     };
   },
@@ -274,141 +274,140 @@ export default {
       const path = document.querySelectorAll("#map-wrap .leaflet-interactive:not(img)");
       if (path.length > 0) {
         //Лубенський р-н
-        path[0].style.fill = '#ffb4a2';
-        path[0].style.stroke = '#ffb4a2';
-        path[4].style.fill = '#ffb4a2';
-        path[4].style.stroke = '#e3655b';
-        path[5].style.fill = '#ffb4a2';
-        path[5].style.stroke = '#e3655b';
-        path[6].style.fill = '#ffb4a2';
-        path[6].style.stroke = '#e3655b';
-        path[7].style.fill = '#ffb4a2';
-        path[7].style.stroke = '#e3655b';
-        path[8].style.fill = '#ffb4a2';
-        path[8].style.stroke = '#e3655b';
-        path[9].style.fill = '#ffb4a2';
-        path[9].style.stroke = '#e3655b';
-        path[10].style.fill = '#ffb4a2';
-        path[10].style.stroke = '#e3655b';
+        path[0].style.fill = "#ffb4a2";
+        path[0].style.stroke = "#ffb4a2";
+        path[4].style.fill = "#ffb4a2";
+        path[4].style.stroke = "#e3655b";
+        path[5].style.fill = "#ffb4a2";
+        path[5].style.stroke = "#e3655b";
+        path[6].style.fill = "#ffb4a2";
+        path[6].style.stroke = "#e3655b";
+        path[7].style.fill = "#ffb4a2";
+        path[7].style.stroke = "#e3655b";
+        path[8].style.fill = "#ffb4a2";
+        path[8].style.stroke = "#e3655b";
+        path[9].style.fill = "#ffb4a2";
+        path[9].style.stroke = "#e3655b";
+        path[10].style.fill = "#ffb4a2";
+        path[10].style.stroke = "#e3655b";
 
         //Полтавський р-н
-        path[1].style.fill = '#82BF45';
-        path[1].style.stroke = '#5b8c5a';
-        path[11].style.fill = '#82BF45';
-        path[11].style.stroke = '#5b8c5a';
-        path[12].style.fill = '#82BF45';
-        path[12].style.stroke = '#5b8c5a';
-        path[13].style.fill = '#82BF45';
-        path[13].style.stroke = '#5b8c5a';
-        path[14].style.fill = '#82BF45';
-        path[14].style.stroke = '#5b8c5a';
-        path[15].style.fill = '#82BF45';
-        path[15].style.stroke = '#5b8c5a';
-        path[16].style.fill = '#82BF45';
-        path[16].style.stroke = '#5b8c5a';
-        path[17].style.fill = '#82BF45';
-        path[17].style.stroke = '#5b8c5a';
-        path[18].style.fill = '#82BF45';
-        path[18].style.stroke = '#5b8c5a';
-        path[19].style.fill = '#82BF45';
-        path[19].style.stroke = '#5b8c5a';
-        path[20].style.fill = '#82BF45';
-        path[20].style.stroke = '#5b8c5a';
-        path[21].style.fill = '#82BF45';
-        path[21].style.stroke = '#5b8c5a';
-        path[22].style.fill = '#82BF45';
-        path[22].style.stroke = '#5b8c5a';
-        path[23].style.fill = '#82BF45';
-        path[23].style.stroke = '#5b8c5a';
-        path[24].style.fill = '#82BF45';
-        path[24].style.stroke = '#5b8c5a';
-        path[25].style.fill = '#82BF45';
-        path[25].style.stroke = '#5b8c5a';
-        path[26].style.fill = '#82BF45';
-        path[26].style.stroke = '#5b8c5a';
-        path[27].style.fill = '#82BF45';
-        path[27].style.stroke = '#5b8c5a';
-        path[28].style.fill = '#82BF45';
-        path[28].style.stroke = '#5b8c5a';
-        path[29].style.fill = '#82BF45';
-        path[29].style.stroke = '#5b8c5a';
-        path[30].style.fill = '#82BF45';
-        path[30].style.stroke = '#5b8c5a';
-        path[31].style.fill = '#82BF45';
-        path[31].style.stroke = '#5b8c5a';
-        path[32].style.fill = '#82BF45';
-        path[32].style.stroke = '#5b8c5a';
-        path[33].style.fill = '#82BF45';
-        path[33].style.stroke = '#5b8c5a';
-        path[34].style.fill = '#82BF45';
-        path[34].style.stroke = '#5b8c5a';
+        path[1].style.fill = "#82BF45";
+        path[1].style.stroke = "#5b8c5a";
+        path[11].style.fill = "#82BF45";
+        path[11].style.stroke = "#5b8c5a";
+        path[12].style.fill = "#82BF45";
+        path[12].style.stroke = "#5b8c5a";
+        path[13].style.fill = "#82BF45";
+        path[13].style.stroke = "#5b8c5a";
+        path[14].style.fill = "#82BF45";
+        path[14].style.stroke = "#5b8c5a";
+        path[15].style.fill = "#82BF45";
+        path[15].style.stroke = "#5b8c5a";
+        path[16].style.fill = "#82BF45";
+        path[16].style.stroke = "#5b8c5a";
+        path[17].style.fill = "#82BF45";
+        path[17].style.stroke = "#5b8c5a";
+        path[18].style.fill = "#82BF45";
+        path[18].style.stroke = "#5b8c5a";
+        path[19].style.fill = "#82BF45";
+        path[19].style.stroke = "#5b8c5a";
+        path[20].style.fill = "#82BF45";
+        path[20].style.stroke = "#5b8c5a";
+        path[21].style.fill = "#82BF45";
+        path[21].style.stroke = "#5b8c5a";
+        path[22].style.fill = "#82BF45";
+        path[22].style.stroke = "#5b8c5a";
+        path[23].style.fill = "#82BF45";
+        path[23].style.stroke = "#5b8c5a";
+        path[24].style.fill = "#82BF45";
+        path[24].style.stroke = "#5b8c5a";
+        path[25].style.fill = "#82BF45";
+        path[25].style.stroke = "#5b8c5a";
+        path[26].style.fill = "#82BF45";
+        path[26].style.stroke = "#5b8c5a";
+        path[27].style.fill = "#82BF45";
+        path[27].style.stroke = "#5b8c5a";
+        path[28].style.fill = "#82BF45";
+        path[28].style.stroke = "#5b8c5a";
+        path[29].style.fill = "#82BF45";
+        path[29].style.stroke = "#5b8c5a";
+        path[30].style.fill = "#82BF45";
+        path[30].style.stroke = "#5b8c5a";
+        path[31].style.fill = "#82BF45";
+        path[31].style.stroke = "#5b8c5a";
+        path[32].style.fill = "#82BF45";
+        path[32].style.stroke = "#5b8c5a";
+        path[33].style.fill = "#82BF45";
+        path[33].style.stroke = "#5b8c5a";
+        path[34].style.fill = "#82BF45";
+        path[34].style.stroke = "#5b8c5a";
 
         //Миргородський р-н
-        path[2].style.fill = '#9519ad';
-        path[2].style.stroke = '#9519ad';
-        path[35].style.fill = '#9519ad';
-        path[35].style.stroke = '#9519ad';
-        path[36].style.fill = '#9519ad';
-        path[36].style.stroke = '#9519ad';
-        path[37].style.fill = '#9519ad';
-        path[37].style.stroke = '#9519ad';
-        path[38].style.fill = '#9519ad';
-        path[38].style.stroke = '#9519ad';
-        path[39].style.fill = '#9519ad';
-        path[39].style.stroke = '#9519ad';
-        path[40].style.fill = '#9519ad';
-        path[40].style.stroke = '#9519ad';
-        path[41].style.fill = '#9519ad';
-        path[41].style.stroke = '#9519ad';
-        path[42].style.fill = '#9519ad';
-        path[42].style.stroke = '#9519ad';
-        path[43].style.fill = '#9519ad';
-        path[43].style.stroke = '#9519ad';
-        path[44].style.fill = '#9519ad';
-        path[44].style.stroke = '#9519ad';
-        path[45].style.fill = '#9519ad';
-        path[45].style.stroke = '#9519ad';
-        path[46].style.fill = '#9519ad';
-        path[46].style.stroke = '#9519ad';
-        path[47].style.fill = '#9519ad';
-        path[47].style.stroke = '#9519ad';
-        path[48].style.fill = '#9519ad';
-        path[48].style.stroke = '#9519ad';
-        path[49].style.fill = '#9519ad';
-        path[49].style.stroke = '#9519ad';
-        path[50].style.fill = '#9519ad';
-        path[50].style.stroke = '#9519ad';
-        path[51].style.fill = '#9519ad';
-        path[51].style.stroke = '#9519ad';
-
+        path[2].style.fill = "#9519ad";
+        path[2].style.stroke = "#9519ad";
+        path[35].style.fill = "#9519ad";
+        path[35].style.stroke = "#9519ad";
+        path[36].style.fill = "#9519ad";
+        path[36].style.stroke = "#9519ad";
+        path[37].style.fill = "#9519ad";
+        path[37].style.stroke = "#9519ad";
+        path[38].style.fill = "#9519ad";
+        path[38].style.stroke = "#9519ad";
+        path[39].style.fill = "#9519ad";
+        path[39].style.stroke = "#9519ad";
+        path[40].style.fill = "#9519ad";
+        path[40].style.stroke = "#9519ad";
+        path[41].style.fill = "#9519ad";
+        path[41].style.stroke = "#9519ad";
+        path[42].style.fill = "#9519ad";
+        path[42].style.stroke = "#9519ad";
+        path[43].style.fill = "#9519ad";
+        path[43].style.stroke = "#9519ad";
+        path[44].style.fill = "#9519ad";
+        path[44].style.stroke = "#9519ad";
+        path[45].style.fill = "#9519ad";
+        path[45].style.stroke = "#9519ad";
+        path[46].style.fill = "#9519ad";
+        path[46].style.stroke = "#9519ad";
+        path[47].style.fill = "#9519ad";
+        path[47].style.stroke = "#9519ad";
+        path[48].style.fill = "#9519ad";
+        path[48].style.stroke = "#9519ad";
+        path[49].style.fill = "#9519ad";
+        path[49].style.stroke = "#9519ad";
+        path[50].style.fill = "#9519ad";
+        path[50].style.stroke = "#9519ad";
+        path[51].style.fill = "#9519ad";
+        path[51].style.stroke = "#9519ad";
 
         //Кременчуцький р-н
-        path[3].style.fill = '#FDE003';
-        path[3].style.stroke = '#F09308';
-        path[52].style.fill = '#FDE003';
-        path[52].style.stroke = '#F09308';
-        path[53].style.fill = '#FDE003';
-        path[53].style.stroke = '#F09308';
-        path[54].style.fill = '#FDE003';
-        path[54].style.stroke = '#F09308';
-        path[55].style.fill = '#FDE003';
-        path[55].style.stroke = '#F09308';
-        path[56].style.fill = '#FDE003';
-        path[56].style.stroke = '#F09308';
-        path[57].style.fill = '#FDE003';
-        path[57].style.stroke = '#F09308';
-        path[58].style.fill = '#FDE003';
-        path[58].style.stroke = '#F09308';
-        path[59].style.fill = '#FDE003';
-        path[59].style.stroke = '#F09308';
-        path[60].style.fill = '#FDE003';
-        path[60].style.stroke = '#F09308';
-        path[61].style.fill = '#FDE003';
-        path[61].style.stroke = '#F09308';
-        path[62].style.fill = '#FDE003';
-        path[62].style.stroke = '#F09308';
-        path[63].style.fill = '#FDE003';
-        path[63].style.stroke = '#F09308';
+        path[3].style.fill = "#FDE003";
+        path[3].style.stroke = "#F09308";
+        path[52].style.fill = "#FDE003";
+        path[52].style.stroke = "#F09308";
+        path[53].style.fill = "#FDE003";
+        path[53].style.stroke = "#F09308";
+        path[54].style.fill = "#FDE003";
+        path[54].style.stroke = "#F09308";
+        path[55].style.fill = "#FDE003";
+        path[55].style.stroke = "#F09308";
+        path[56].style.fill = "#FDE003";
+        path[56].style.stroke = "#F09308";
+        path[57].style.fill = "#FDE003";
+        path[57].style.stroke = "#F09308";
+        path[58].style.fill = "#FDE003";
+        path[58].style.stroke = "#F09308";
+        path[59].style.fill = "#FDE003";
+        path[59].style.stroke = "#F09308";
+        path[60].style.fill = "#FDE003";
+        path[60].style.stroke = "#F09308";
+        path[61].style.fill = "#FDE003";
+        path[61].style.stroke = "#F09308";
+        path[62].style.fill = "#FDE003";
+        path[62].style.stroke = "#F09308";
+        path[63].style.fill = "#FDE003";
+        path[63].style.stroke = "#F09308";
       }
     });
   },
@@ -421,7 +420,16 @@ export default {
       set(item) {
         this.geo_js = item;
         return this.geo_js;
-      }
+      },
+    },
+    marker_vs: {
+      get() {
+        return this.vs_zoom;
+      },
+      set(item) {
+        this.vs_zoom = item;
+        return this.vs_zoom;
+      },
     },
     pnt_lng: {
       get() {
@@ -430,16 +438,16 @@ export default {
       set(item) {
         this.pn_lt = item;
         return this.pn_lt;
-      }
+      },
     },
     pnt_icon: {
       get() {
         return this.icon(this.icLn);
       },
       set(item) {
-        this.icLn = item
+        this.icLn = item;
         return item;
-      }
+      },
     },
     options_style() {
       return {
@@ -448,7 +456,7 @@ export default {
         opacity: 1,
         color: "#eae7e7",
         dashArray: "3",
-        fillOpacity: 0.7
+        fillOpacity: 0.7,
       };
     },
     get_info() {
@@ -461,7 +469,7 @@ export default {
       },
       set(points) {
         this.searchResults = points;
-        return {...points};
+        return { ...points };
       },
     },
     maps_pl() {
@@ -626,7 +634,6 @@ export default {
       return geoPoint.map_mr17;
     },
 
-
     //Кременчуцький р-н
     maps_kr_rn() {
       return geoPoint.map_kr_rn;
@@ -669,18 +676,27 @@ export default {
     },
   },
   methods: {
+    isMarkerVisible(zoom) {
+      if (zoom < 8) {
+        return false;
+      }
+      return true;
+    },
+    updateMarkersVisibility(event) {
+      this.marker_vs = this.isMarkerVisible(event.target._zoom);
+    },
     onPopupClose() {
-      this.poligonHighlight(null, null)
+      this.poligonHighlight(null, null);
     },
     poligonHighlight(map, lng) {
       if (map !== null) {
         this.geo_json = geoPoint[map];
-        this.pnt_lng = lng        
-        this.pnt_icon = '/marker/icon-mark2.png';
+        this.pnt_lng = lng;
+        this.pnt_icon = "/marker/icon-mark2.png";
       } else {
-        this.pnt_icon = '/'
+        this.pnt_icon = "/";
         this.geo_json = [];
-        this.pnt_lng = [0,0]
+        this.pnt_lng = [0, 0];
       }
     },
     icon(link) {
