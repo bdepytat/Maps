@@ -16,7 +16,7 @@ export default {
       <div class="col-12 col-md-6">
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary w-100 vh-100">
           <a
-            href="/static"
+            href="/"
             class="d-flex align-items-center justify-content-between mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
           >
             <div class="col-8">

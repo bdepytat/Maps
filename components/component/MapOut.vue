@@ -1,10 +1,6 @@
 <template>
   <div id="map-wrap" style="height: 100vh">
-    <l-map :zoom="zoom" :center="center" @click="hiddenBlock" @popupclose="onPopupClose">
-      <l-marker :lat-lng="[49.91231, 33.07985]" :icon="labelIcon1"></l-marker>
-      <l-marker :lat-lng="[49.47164, 35.02449]" :icon="labelIcon2"></l-marker>
-      <l-marker :lat-lng="[50.0183, 33.95329]" :icon="labelIcon3"></l-marker>
-      <l-marker :lat-lng="[49.05765, 33.76652]" :icon="labelIcon4"></l-marker>
+    <l-map :zoom="zoom" :center="center" @click="hiddenBlock" @popupclose="onPopupClose">     
 
       <l-tile-layer :url="url"></l-tile-layer>
       <l-marker
@@ -12,14 +8,24 @@
         :key="index"
         :lat-lng="point.latlng"
         :icon="icon(point.marker)"
-        @click="poligonHighlight(point.map)"
+        @click="poligonHighlight(point.map, point.latlng)"
       >
         <l-popup>
           <ListPopup :point="point"/>
         </l-popup>
       </l-marker>
-
-
+      <l-marker
+        :lat-lng="pnt_lng"
+        :icon="pnt_icon"
+      >
+      </l-marker>
+    
+      
+      <l-marker :lat-lng="[49.91231, 33.07985]"  :icon="labelIcon1"></l-marker>
+      <l-marker :lat-lng="[49.47164, 35.02449]" :icon="labelIcon2"></l-marker>
+      <l-marker :lat-lng="[50.0183, 33.95329]" :icon="labelIcon3"></l-marker>
+      <l-marker :lat-lng="[49.05765, 33.76652]" :icon="labelIcon4"></l-marker>
+    
       <!-- 4 Райони-->
       <l-geo-json :geojson="maps_lb_rn"></l-geo-json>
       <l-geo-json :geojson="maps_polt"></l-geo-json>
@@ -245,6 +251,8 @@ export default {
         popupAnchor: [0, -16]
       }),
       geo_js: [],
+      pn_lt: [0,0],
+      icLn: "/",
       tileComponent: {
         name: 'tile-component',
         props: {
@@ -413,6 +421,24 @@ export default {
       set(item) {
         this.geo_js = item;
         return this.geo_js;
+      }
+    },
+    pnt_lng: {
+      get() {
+        return this.pn_lt;
+      },
+      set(item) {
+        this.pn_lt = item;
+        return this.pn_lt;
+      }
+    },
+    pnt_icon: {
+      get() {
+        return this.icon(this.icLn);
+      },
+      set(item) {
+        this.icLn = item
+        return item;
       }
     },
     options_style() {
@@ -644,13 +670,17 @@ export default {
   },
   methods: {
     onPopupClose() {
-      this.poligonHighlight(null)
+      this.poligonHighlight(null, null)
     },
-    poligonHighlight(map) {
+    poligonHighlight(map, lng) {
       if (map !== null) {
         this.geo_json = geoPoint[map];
+        this.pnt_lng = lng        
+        this.pnt_icon = '/marker/icon-mark2.png';
       } else {
+        this.pnt_icon = '/'
         this.geo_json = [];
+        this.pnt_lng = [0,0]
       }
     },
     icon(link) {
